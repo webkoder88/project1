@@ -1,0 +1,41 @@
+<div class="other-header profile-header" *ngIf="login && me">
+  <div class="img">
+    <app-img [fs]="me.img" [dir]="'avatar'" [anyFs]="'assets/images/user.svg'"></app-img>
+  </div>
+  <div class="info">
+    <div class="info-left">
+      <div class="name">
+        {{me.name}}
+      </div>
+      <div class="tel">
+        {{me.mobile}}
+      </div>
+    </div>
+    <div class="info-right">
+      <div class="language" routerLink="/{{language === 'ru' ? 'ua' : 'ru'}}/{{url}}" (click)="setLang(language === 'ru' ? 'ua' : 'ru')" >
+        <div class="title">
+          {{language === 'ua' ? 'ua' : 'ru'}}
+        </div>
+        <img *ngIf="language === 'ua'" src="./assets/images/ua.svg" alt="ua">
+        <img *ngIf="language === 'ru'" src="./assets/images/ru.svg" alt="ru">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="other-pages profile-block" *ngIf="language">
+  <div class="profile-linki">
+    <a routerLink="/{{language}}/my-info" *ngIf="login">
+      {{data.mydata[language]}}
+    </a>
+    <a routerLink="/{{language}}/my-address" *ngIf="login">
+      {{data.address[language]}}
+    </a>
+    <button class="logout" *ngIf="login" (click)="logut()">
+      {{data.exit[language]}}
+    </button>
+    <a routerLink="/{{language}}/signin" *ngIf="!login">
+      {{data.enter[language]}}
+    </a>
+  </div>
+</div>

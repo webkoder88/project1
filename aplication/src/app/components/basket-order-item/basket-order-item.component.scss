@@ -1,0 +1,221 @@
+::ng-deep .mat-accordion .basket-panel{
+  border-radius: 30px 30px 0 0 !important;
+  box-shadow: none!important;
+  border: 1px solid #E4E4E4!important;
+  margin-bottom: 0!important;
+  max-width: 100%!important;
+}
+::ng-deep .mat-expansion-panel-header{
+  padding: 12px 20px !important;
+  height: auto!important;
+}
+::ng-deep .mat-expansion-panel-body{
+  padding: 0!important;
+}
+::ng-deep .basket-checkbox .mat-checkbox-background {
+  border-radius: 50% !important;
+}
+::ng-deep .basket-checkbox .mat-checkbox-frame {
+  border-radius: 50% !important;
+}
+.title-panel{
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+  width: 100%;
+  .img{
+    width: 25px;
+    height: 25px;
+    overflow: hidden;
+    margin-left: 20px;
+    border-radius: 5px;
+  }
+  .title{
+    position: relative;
+    left: 10px;
+    line-height: 16px;
+    font-size: 13px;
+    z-index: 1;
+    margin-right: auto;
+    &.mat-rating{
+      margin-top: -3px;
+    }
+  }
+  .discount{
+    margin-left: auto;
+    font-size: 14px;
+    color: #FF3131;
+    min-width: max-content;
+  }
+
+}
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background{
+  background: #3ab14c!important;
+}
+.conteiner-basket-order{
+  position: relative;
+  margin-bottom: 15px;
+}
+.main-checkbox{
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  z-index: 2;
+}
+::ng-deep .mat-checkbox-layout{
+  padding: 10px;
+}
+.content{
+  border-top: 1px solid #E4E4E4;
+  padding:0 10px 0 0;
+  &-item{
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 1px solid #E4E4E4;
+    padding: 20px 0;
+    &:nth-of-type(1){
+      border-top: none;
+    }
+    .mat-checkbox{
+      display: flex;
+      align-items: center;
+    }
+    .remove{
+      display: flex;
+      align-items: center;
+      padding: 0 3px;
+    }
+    .img{
+      display: flex;
+      min-width: 115px;
+      max-width: 115px;
+      height: 115px;
+      margin-right: 10px;
+      margin-left: 0;
+      border-radius: 15px;
+      overflow: hidden;
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+      }
+    }
+    .info{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: calc(100% - 178px);
+      .title{
+        font-size: 12px;
+        line-height: 15px;
+      }
+      .price-element{
+        display: flex;
+        flex-direction: column;
+        .price-item{
+          font-weight: bold;
+          font-size: 14px;
+          line-height: 17px;
+        }
+        .new-price{
+          display: none;
+        }
+      }
+      .sale{
+        .price-item{
+          text-decoration-line: line-through;
+          font-size: 12px;
+          line-height: 15px;
+        }
+        .new-price{
+          display: block;
+          color: #FF3131;
+          font-weight: bold;
+          font-size: 18px;
+          line-height: 22px;
+        }
+      }
+      .price{
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 17px;
+      }
+      .count{
+        display: flex;
+        align-items: center;
+        .minus{
+          line-height: 14px;
+        }
+        .count-item{
+          width: max-content;
+          min-width: 22px;
+          font-size: 14px;
+          line-height: 17px;
+          text-align: center;
+          padding: 0 3px;
+          margin-top: -2px;
+        }
+      }
+    }
+    .provider-title{
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 10px 0 0 25px;
+      svg{
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.basket-buttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0px;
+  .left{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+    border-radius: 0 0 0 30px;
+    border-bottom: 1px solid #E4E4E4;
+    border-left: 1px solid #E4E4E4;
+    .left-title{
+      font-size: 12px;
+      line-height: 15px;
+    }
+    .left-price{
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 17px;
+      margin-top: 5px;
+    }
+  }
+  .right{
+    display: flex;
+    align-items: center;
+    height: 48px;
+    justify-content: center;
+    width: 50%;
+    background: #3ab14c;
+    color: #fff;
+    border: none;
+    border-radius: 0 0 30px 0;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+
+
+::ng-deep .prod-bsk-img{
+  img{
+    object-fit: cover!important;
+  }
+}

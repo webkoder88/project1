@@ -1,0 +1,36 @@
+<div class="work-time" *ngIf="data" (click)="show($event)">
+  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 0.0102539C2.243 0.0102539 0 2.25325 0 5.01025C0 7.76725 2.243 9.99009 5 9.99009C7.757 9.99009 10 7.76725 10 5.01025C10 2.25325 7.757 0.0102539 5 0.0102539ZM5.33333 5.15659C5.33333 5.34059 5.184 5.48992 5 5.48992H2.33333C2.14933 5.48992 2 5.34059 2 5.15659C2 4.97259 2.14933 4.82325 2.33333 4.82325H4.66667V1.15659C4.66667 0.972587 4.816 0.823254 5 0.823254C5.184 0.823254 5.33333 0.972587 5.33333 1.15659V5.15659Z" fill="#3ab14c"/>
+  </svg>
+  {{data.label ? data.label : translate[language]}}
+</div>
+
+<ng-container *ngIf="detail">
+  <div appPopup class="pop" (onClose)="close()">
+    <div class="calendar">
+      <div class="cansel-popup-btn close" (click)="close()">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14.8221 13.9619L8.36014 7.49995L14.822 1.03809C15.0595 0.800639 15.0595 0.41559 14.822 0.17811C14.5845 -0.0593701 14.1995 -0.0593701 13.962 0.17811L7.50016 6.63997L1.03825 0.17811C0.800798 -0.0593701 0.41575 -0.0593701 0.17827 0.17811C-0.0592098 0.415561 -0.0592098 0.80061 0.17827 1.03809L6.64015 7.49995L0.17827 13.9619C-0.0592098 14.1993 -0.0592098 14.5844 0.17827 14.8218C0.415721 15.0593 0.800769 15.0593 1.03825 14.8218L7.50016 8.35993L13.9621 14.8218C14.1995 15.0593 14.5846 15.0593 14.8221 14.8218C15.0595 14.5844 15.0595 14.1993 14.8221 13.9619Z" fill="black"/>
+        </svg>
+      </div>
+      <table>
+        <tr *ngFor="let i of [1,2,3,4,5,6,7]">
+          <td>{{'timeRange'+i | trans:language}}</td>
+          <td>
+            <ng-container *ngIf="data['timeRange'+i].isAllTime">
+              <span class="all-time">{{'isAllTime' | trans:language}}</span>
+            </ng-container>
+            <ng-container *ngIf="data['timeRange'+i].isTimeRange">
+              <span class="range">
+                {{data['timeRange'+i].timeStart}} - {{data['timeRange'+i].timeEnd}}
+              </span>
+            </ng-container>
+            <ng-container *ngIf="data['timeRange'+i].isWeekend">
+              <span class="weekend">{{'isWeekend' | trans:language}}</span>
+            </ng-container>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</ng-container>

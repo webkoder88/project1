@@ -1,0 +1,16 @@
+<div class="add-review">
+  <div class="header">
+    {{translate.header[language]}}
+  </div>
+  <form (submit)="submit()" class="form">
+    <mat-form-field class="full-width">
+      <mat-label>{{translate.comment[language]}}</mat-label>
+      <textarea matInput name="comment" [(ngModel)]="comment"></textarea>
+    </mat-form-field>
+
+    <div class="buttons">
+      <button class="reset" type="reset" (click)="cancelAdd()">{{translate.reset[language]}}</button>
+      <button class="submit" type="submit">{{translate.submit[language]}}</button>
+    </div>
+  </form>
+</div>

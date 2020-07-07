@@ -1,0 +1,47 @@
+<div class="other-header">
+  <app-back-btn></app-back-btn>
+  <h2>
+    {{translate.title[language]}}
+  </h2>
+</div>
+
+<form (submit)="save($event)" class="other-pages">
+  <p>
+    {{translate.empty[language]}}
+  </p>
+  <div class="form">
+    <input type="text" [placeholder]="translate.input[language]" name="name" [(ngModel)]="address.name">
+    <div class="city-block">
+      <mat-form-field *ngIf="cities" class="city-w">
+        <mat-label>
+          {{translate.city[language]}}
+        </mat-label>
+        <mat-select [(value)]="address.city" (selectionChange)="select($event)">
+          <mat-option *ngFor="let city of cities" [value]="city._id">
+            {{city.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <input type="text" [placeholder]="translate.street[language]" name="street" [(ngModel)]="address.street">
+    <div class="home">
+      <input type="text" [placeholder]="translate.build[language]" name="build" [(ngModel)]="address.build">
+      <input type="text" [placeholder]="translate.department[language]" name="department" [(ngModel)]="address.department">
+    </div>
+    <input type="text" [placeholder]="translate.comment[language]" name="comment" [(ngModel)]="address.comment">
+    <div class="photo-upload">
+      <div class="img" *ngIf="address.img">
+        <app-img [dir]="'address'" [fs]="address.img"></app-img>
+      </div>
+      <div class="mat-chip-file" *ngIf="address && address.img">
+        <div class="content">{{address.img.split('--')[1]}}</div>
+        <div class="remove-mat-chip" (click)="removeImg()"></div>
+      </div>
+      <app-upload (onCrop)="onFs($event)" [cropper]="true" [dir]="'address'" *ngIf="!address.img"></app-upload>
+    </div>
+  </div>
+  <button class="main-button color" type="submit">
+    {{translate.create[language]}}
+  </button>
+  <a routerLink="/{{language}}/my-address" class="back-btn">Назад</a>
+</form>

@@ -1,0 +1,113 @@
+.my-info{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 5px;
+  }
+  .replace{
+    margin-top: 3px;
+    text-decoration: underline;
+  }
+  .add-photo{
+    color: #3ab14c;
+    text-decoration: underline;
+    background: #fff;
+    border:0;
+  }
+  p{
+    text-align: left;
+  }
+  .form{
+    .app-phone{
+      color: #000!important;
+    }
+    .phone{
+      color: #000!important;
+    }
+    input{
+      width: 100%;
+      max-width: 290px;
+      margin: 0 auto 25px;
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid #8D8D8D;
+      color: #1C1C1C;
+      background: #fff;
+      padding: 5px 5px;
+      font-size: 17px;
+      &::placeholder {
+        color: rgba(28, 28, 28, 0.3);
+        opacity: 1;
+
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 17px;
+      }
+
+      &:-ms-input-placeholder {
+        color: rgba(28, 28, 28, 0.3);
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 17px;
+      }
+
+      &::-ms-input-placeholder {
+        color: rgba(28, 28, 28, 0.3);
+
+
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 17px;
+      }
+    }
+    .pass-label{
+      position: relative;
+      .show{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 3;
+      }
+    }
+  }
+}
+app-image-cropper{
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  padding: 15px;
+  max-width: calc(100% - 30px);
+  margin: 0 15px;
+}
+
+.pass{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  button{
+    margin: 0 auto;
+  }
+  p{
+    &.error{
+      color: #E21B1B;
+      margin-top: -10px;
+    }
+  }
+}
+.pass-input{
+  margin-bottom: 5px;
+}
+.pass-btn{
+  padding: 0 20px;
+}
+
+.isblock{
+  margin-bottom: 15px;
+}

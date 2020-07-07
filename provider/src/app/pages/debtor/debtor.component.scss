@@ -1,0 +1,150 @@
+.content{
+  overflow-x: auto;
+}
+.option{
+  display: flex;
+  align-items: center;
+  .img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 20px;
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+.center-column{
+  text-align: center;
+}
+.example-full-width {
+  width: 100%;
+}
+.img-avatar{
+  max-width: 40px;
+  display: flex;
+  object-fit: contain;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+.img-address{
+  max-width: 60px;
+  display: flex;
+  object-fit: contain;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+.debtor-wrap:hover .hover-title{
+  z-index: 2;
+  opacity: 1;
+  bottom: 10px;
+}
+.debtor-wrap{
+  position: relative;
+}
+.hover-title{
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px;
+  height: 60px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  border-radius: 15px;
+  bottom: -30px;
+  left: 15px;
+  z-index: -1;
+  opacity: 0;
+  transition: .5s;
+}
+.tel{
+  text-decoration: underline;
+  color: #369;
+}
+.wrap-address-name{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 10px;
+
+}
+.address-title{
+  text-align: center;
+}
+.wrap-address p{
+  margin: 0;
+}
+.img-address{
+  margin: 0 auto;
+  width: 60px;
+  app-img{
+    width: 100%;
+  }
+}
+
+.address-name{
+  width: 100%;
+  max-width: 120px;
+}
+.search{
+  display: flex;
+  button{
+    margin-left: 15px;
+  }
+}
+.date{
+  span{
+    &:nth-of-type(2){
+      margin-right: 15px;
+    }
+  }
+  .date-box{
+    display: inline-flex;
+    align-items: center;
+    svg{
+      margin-right: 5px;
+    }
+    .mat-date-pick{
+      width: 90px;
+      color: #31394D;
+    }
+    .date-input{
+      border: 0;
+      border-bottom:1px solid #DADADA;
+      width: 100%;
+    }
+    &:nth-of-type(1){
+      margin-right: 10px;
+    }
+  }
+}
+
+.product-box{
+  margin: 50px 0 30px;
+}
+
+.img-product{
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.name-product{
+  display: flex;
+  align-items: center;
+
+}

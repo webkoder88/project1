@@ -1,0 +1,26 @@
+.history-raiting{
+  h3{
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+.empty-block{
+  text-align: center;
+}
+.empty{
+  text-align: center;
+  padding-top: 45px;
+}
+.viewport{
+  width: 100%;
+  height: calc(100vh - 185px);
+  margin-top: 45px;
+  overflow-y: auto;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { width: 0 !important }
+}

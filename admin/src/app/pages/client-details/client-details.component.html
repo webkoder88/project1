@@ -1,0 +1,87 @@
+<ng-container *ngIf="loading">
+  <app-loading></app-loading>
+</ng-container>
+
+<div class="client-detail">
+  <div class="client-detail__header" *ngIf="client">
+    <h2>
+      Клиент "{{client.name ? client.name : 'Неизвестно'}}"
+    </h2>
+
+    <div class="table-info">
+      <div class="info-row">
+        <div class="info-item">
+          Логин:
+        </div>
+        <div class="info-item">
+          {{client.login}}
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-item">
+          Имя:
+        </div>
+        <div class="info-item">
+          {{client.name}}
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-item">
+          ФОП:
+        </div>
+        <div class="info-item">
+          {{client.isFop ? 'Да' : 'Нет'}}
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-item">
+          Документы:
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-item" *ngFor="let img of client.fopDocuments">
+          <app-img [dir]="'fop'" [fs]="img"></app-img>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-item">
+          ИНН:
+        </div>
+        <div class="info-item">
+          {{client.idNumber}}
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-item">
+          Адрес:
+        </div>
+        <div class="info-item">
+          {{client.address}}
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-item">
+          Номер телефона:
+        </div>
+        <div class="info-item">
+          {{client.mobile}}
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-item">
+          Примечание:
+        </div>
+        <div class="info-item">
+          {{client.notes}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

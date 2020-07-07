@@ -1,0 +1,91 @@
+<form (keyup)="formCheck()" (submit)="confirmEditCategoryCrud($event)" class="edit-section">
+  <div class="toggle">
+    <mat-slide-toggle name="loyalty" [(ngModel)]="editObj.loyaltyAvailable" (change)="toggle($event)">Товар {{editObj.loyaltyAvailable ? 'включен в систему' : 'отключен от системы'}} лояльности</mat-slide-toggle>
+  </div>
+	<mat-form-field class="example-full-width">
+		<input matInput type="text" placeholder="Название продукта" name="name" [(ngModel)]="editObj.name" autocomplete="off">
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input matInput type="text" placeholder="Описание продукта" name="des" [(ngModel)]="editObj.des" autocomplete="off">
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input matInput type="text" placeholder="Цена" name="price" [(ngModel)]="editObj.price" autocomplete="off">
+	</mat-form-field>
+	<div *ngIf="categorys.length > 0">
+		<mat-form-field style="margin-right: 25px">
+			<mat-label>Категория</mat-label>
+			<mat-select [(value)]="mainCategoryChoose" (selectionChange)="changeSelectCategory(mainCategoryChoose)">
+				<mat-option *ngFor="let item of categorys" [value]="item._id">
+					{{item.name}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field *ngIf="subCategoryArray && subCategoryArray.length > 0">
+			<mat-label>Подкатегория</mat-label>
+			<mat-select [(value)]="subCategoryChoose" (selectionChange)="isBlok=true">
+				<mat-option [value]="null">-</mat-option>
+				<mat-option *ngFor="let item of subCategoryArray" [value]="item">
+					{{item}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+	<div *ngIf="products.length > 0">
+		<mat-form-field style="margin-right: 25px">
+			<mat-label>Релевантные продукты</mat-label>
+			<mat-select [(value)]="relatedChoose" (selectionChange)="selectRelated(relatedChoose)">
+				<mat-option *ngFor="let item of products" [value]="item">
+					{{item.name}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+	<div *ngIf="related.length > 0">
+		<div class="mat-chip-file" *ngFor="let item of related">
+			<div class="content">{{item.name}}</div>
+			<div class="remove-mat-chip" (click)="removeRelated(item)"></div>
+		</div>
+	</div>
+
+	<div  *ngIf="subBrandsArray && subBrandsArray.length > 0">
+		<mat-form-field>
+			<mat-label>Brands</mat-label>
+			<mat-select [(value)]="mainChooseBrand" (selectionChange)="changeSelectBrand(mainChooseBrand)">
+				<mat-option *ngFor="let item of subBrandsArray" [value]="item._id">
+					{{item.name}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+	<div class="check">
+		<mat-checkbox [(ngModel)]="presence" (change)="formCheck()" name="presence">
+			В наличии
+		</mat-checkbox>
+	</div>
+
+	<div class="check">
+		<mat-checkbox [(ngModel)]="showSale" (change)="formCheck()" name="saleChack">Включить скидку</mat-checkbox>
+	</div>
+	<mat-form-field class="example-full-width" *ngIf="showSale">
+		<input matInput type="text" placeholder="Цена со скидкой" name="priceSale" [(ngModel)]="editObj.discount" autocomplete="off">
+	</mat-form-field>
+	<div class="group-buttons">
+		<div class="left">
+			<div class="img" *ngIf="editObj.img !== ''">
+				<app-img [dir]="'product'" [fs]="editObjCopy.img" *ngIf="editObj && editObj.img"></app-img>
+			</div>
+			<app-upload (onCrop)="onFsEdit($event)" *ngIf="editObj && editObj.img === ''" [cropper]="true" [dir]="'product'"></app-upload>
+			<div class="mat-chip-file" *ngIf="editObj && editObj.img !== ''">
+				<div class="content">{{editObj.img}}</div>
+				<div class="remove-mat-chip" (click)="editObj.img = ''; formCheck()"></div>
+			</div>
+		</div>
+		<div class="right">
+			<button class="main-button" type="reset" (click)="cancelEdit.emit(false)">Отмена</button>
+			<button class="main-button-color" type="submit"  *ngIf="isBlok">Сохранить</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,124 @@
+<div class="contain">
+	<div class="contain__group"  *ngIf="addShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Создать бренд
+			</div>
+		</div>
+		<div class="add-section">
+			<label>
+				<input type="text" placeholder="Бренд" [(ngModel)]="brand.name">
+			</label>
+			<div class="group-buttons">
+				<div class="left">
+					<div class="img" *ngIf="brand && brand.img">
+						<app-img [fs]="brand.img" [dir]="'product'"></app-img>
+					</div>
+					<app-upload (onCrop)="onFs($event)" [dir]="'product'" [cropper]="true" *ngIf="brand && brand.img === ''"></app-upload>
+					<div class="mat-chip-file" *ngIf="brand && brand.img !== ''">
+						<div class="content">{{brand.img}}</div>
+						<div class="remove-mat-chip" (click)="brand.img = ''"></div>
+					</div>
+				</div>
+				<div class="right">
+					<button class="main-button" (click)="cancelAdd()">Отмена</button>
+					<button class="main-button-color" (click)="create()">Сохранить</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="contain__group"  *ngIf="editShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Редактировать бренд
+			</div>
+		</div>
+		<form (submit)="confirmEdit()" (keyup)="formCheck()" class="edit-section">
+			<label>
+				<input type="text" placeholder="Бренд" name="name" [(ngModel)]="editObjCopy.name">
+			</label>
+			<div class="group-buttons">
+				<div class="left">
+					<div class="img" *ngIf="editObj.img">
+						<app-img [fs]="editObj.img" [dir]="'product'"></app-img>
+					</div>
+					<app-upload *ngIf="editObjCopy.img === ''" (onCrop)="onFsEdit($event)" [dir]="'product'" [cropper]="true"></app-upload>
+					<div class="mat-chip-file" *ngIf="editObjCopy && editObjCopy.img !== ''">
+						<div class="content">{{editObjCopy.img}}</div>
+						<div class="remove-mat-chip" (click)="editObjCopy.img = ''; editObj.img = ''; formCheck()"></div>
+					</div>
+				</div>
+				<div class="right">
+					<button class="main-button" type="reset" (click)="cancelEdit()">Отмена</button>
+					<button class="main-button-color" type="submit" *ngIf="isBlok">Сохранить</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div class="contain__group">
+		<div class="contain__group-header">
+			<div class="title">
+				Все бренды
+			</div>
+			<button class="button-add" (click)="openAdd()">
+				<span class="content">Создать бренд</span>
+			</button>
+		</div>
+		<ng-container class="loading" *ngIf="!loading">
+			Загрузка...
+		</ng-container>
+		<ng-container *ngIf="loading">
+			<div class="main-section">
+				<div class="table">
+					<app-filter [apiName]="'brand'" [inputQuery]="'name'" [populate]="''" [query]="''" (output)="outputSearch($event)"></app-filter>
+					<table class="table">
+						<tr class="t-title">
+							<td>Название</td>
+							<td>Дата</td>
+							<td></td>
+						</tr>
+						<tr class="row-r" *ngFor="let item of brands; let index = index">
+							<td>
+                                <div class="col">
+									<div class="img">
+										<app-img [fs]="item.img" [dir]="'product'"></app-img>
+									</div>
+									{{item.name}}
+                                </div>
+							</td>
+							<td>
+								<div class="date">
+									<div class="top-table-date">
+										{{item.date | date: 'dd MMMM, yyyy'  : null : defLang}}
+									</div>
+									<div class="bottom-table-date">
+										{{item.date | date: 'HH:mm'  : null : defLang}}
+									</div>
+								</div>
+							</td>
+							<td>
+                <div class="col jcc">
+								<span class="edit-btn" (click)="edit(index)" appScrollTop></span>
+								<span class="trash-btn" (click)="delete(index)"></span>
+                </div>
+							</td>
+						</tr>
+					</table>
+					<mat-paginator [length]="lengthPagination"
+					               [pageSize]="pageSizePagination"
+					               [pageSizeOptions]="pageSizeOptionsPagination"
+					               (page)="pageEvent($event)"
+					               *ngIf="filterShow && brands && brands.length > 0">
+					</mat-paginator>
+				</div>
+				<div class="empty-section" *ngIf="filterShow && brands && brands.length === 0">
+					<p>
+						У вас нет созданых брендов
+					</p>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+</div>

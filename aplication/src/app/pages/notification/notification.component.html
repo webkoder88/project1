@@ -1,0 +1,66 @@
+<div class="other-header">
+  <app-back-btn></app-back-btn>
+  <h2>
+    {{translate.title[language]}}
+  </h2>
+  <app-basket-item></app-basket-item>
+</div>
+<ng-container *ngIf="!loading">
+  <app-loading></app-loading>
+</ng-container>
+<div class="other-pages">
+  <div class="popular-section">
+    <div class="popular-section-button fixed">
+      <button [class.active]="toggle == 'action'" (click)="toggle = 'action';init();loading = false">
+        {{action_t[language]}}
+      </button>
+      <button [class.active]="toggle == 'new_item'" (click)="toggle = 'new_item';getNewItems();loading = false">
+        {{new_item_t[language]}}
+      </button>
+      <button [class.active]="toggle == 'rating'" (click)="toggle = 'rating';getRating();loading=false">
+        {{rating_t[language]}}
+      </button>
+    </div>
+    <div class="popular-section-box" *ngIf="toggle == 'action'">
+      <ng-container *ngIf="loading">
+        <cdk-virtual-scroll-viewport itemSize="300" class="viewport" appScrollUpdateAction (output)="getOutput($event)"
+          *ngIf="action && action.length > 0">
+          <app-action-item *cdkVirtualFor="let item of action" [obj]="item"></app-action-item>
+        </cdk-virtual-scroll-viewport>
+        <div class="empty" *ngIf="action && action.length === 0">
+          {{translate.empty_action[language]}}
+        </div>
+      </ng-container>
+    </div>
+    <div class="popular-section-box" *ngIf="toggle == 'new_item'">
+      <ng-container *ngIf="loading">
+        <cdk-virtual-scroll-viewport itemSize="300" class="viewport" appScrollUpdateAction (output)="getOutput($event)"
+          *ngIf="newItems && newItems.length > 0">
+          <app-new-item *cdkVirtualFor="let item of newItems" [obj]="item"></app-new-item>
+        </cdk-virtual-scroll-viewport>
+        <div class="empty" *ngIf="newItems && newItems.length === 0">
+          {{translate.empty_new_items[language]}}
+        </div>
+      </ng-container>
+    </div>
+    <div class="popular-section-box" *ngIf="toggle == 'rating'">
+      <div class="viewport">
+        <div class="history-raiting" *ngIf="loading">
+          <app-rating-service-item [data]="item" *ngFor="let item of ratingArr"></app-rating-service-item>
+          <ng-container>
+            <h3>
+              {{translate.history[language]}}
+            </h3>
+            <div class="empty-block" *ngIf="ratingArrHistory.length === 0">
+              {{translate.empty_history[language]}}
+            </div>
+            <ng-container *ngIf="ratingArrHistory.length>0">
+              <app-rating-service-history-item *ngFor="let item of ratingArrHistory" [data]="item"
+                (removeHistory)="updateHistory($event)"></app-rating-service-history-item>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

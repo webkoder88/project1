@@ -1,0 +1,33 @@
+<div class="pay-info">
+	<div class="pay-info__box" *ngIf="settings">
+		<div class="title">
+			Оплата
+		</div>
+		<div class="info-description">
+      Шановний {{user && user.name ? user.companyOwner.name : 'Користувач'}} Оплатити сервіс можна через LiqPay. <br>
+      Вартість послуги Smart {{settings.payInfo.price}} грн / рік. <br>
+      Час переказу грошей може зайняти до 10 хвилин. <br>
+      Якщо після оплати, виниклі труднощі в роботі сервісу ви можете зв'язатися з нами:
+      <br>
+      <br>
+
+      Телефон: <a href="tel:+380936007555">+380936007555</a> <br>
+      E-mail: <a href="mailto:smartzt2020@gmail.com">smartzt2020@gmail.com</a>
+		</div>
+    <ng-container *ngIf="liqpay">
+      <div [innerHTML]="liqpay.btn | safeHTML">
+        <!--{{basket.html}}-->
+      </div>
+    </ng-container>
+
+
+    <div class="cards">
+      <div class="item">
+        <img src="./assets/images/visa.png" alt="visa card">
+      </div>
+      <div class="item">
+        <img src="./assets/images/mastercard.png" alt="mastercard">
+      </div>
+    </div>
+	</div>
+</div>

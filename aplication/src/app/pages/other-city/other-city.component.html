@@ -1,0 +1,23 @@
+<div class="other-header">
+  <app-back-btn></app-back-btn>
+  <h2>
+    {{translate.title[language]}}
+  </h2>
+</div>
+
+<div class="other-pages">
+  <p>
+    {{translate.p1[language]}}
+  </p>
+  <form class="form-city">
+    <input type="text" [placeholder]="cityplaceholder[language]">
+    <app-phone [other]="true" (phone)="phoneOutput($event)"></app-phone>
+    <p>
+      {{translate.pmain[language]}}
+    </p>
+    <button class="main-button color">
+      {{translate.subscribe[language]}}
+    </button>
+  </form>
+  <a routerLink="/{{language}}/city" class="back-btn">Назад</a>
+</div>

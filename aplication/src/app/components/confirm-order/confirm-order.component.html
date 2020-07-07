@@ -1,0 +1,109 @@
+<div class="confirm-order">
+  <div class="other-header">
+    <a (click)="closeConfirm.emit(false)" class="back">
+      <svg width="18" height="8" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M0.646446 3.64645C0.451185 3.84171 0.451185 4.15829 0.646446 4.35355L3.82843 7.53553C4.02369 7.73079 4.34027 7.73079 4.53553 7.53553C4.7308 7.34027 4.7308 7.02369 4.53553 6.82843L1.70711 4L4.53553 1.17157C4.7308 0.97631 4.7308 0.659727 4.53553 0.464465C4.34027 0.269203 4.02369 0.269203 3.82843 0.464465L0.646446 3.64645ZM18 3.5L1 3.5L1 4.5L18 4.5L18 3.5Z"
+          fill="white" />
+      </svg>
+    </a>
+    <h2>
+      {{translate.oform[language]}}
+    </h2>
+    <app-basket-item></app-basket-item>
+  </div>
+  <div class="other-pages">
+    <div class="first-confirm">
+      <div class="header-confirm">
+        <div class="number">1.</div>
+        <div class="title">
+          {{translate.title1[language]}}
+        </div>
+      </div>
+      <div class="confirm-address" *ngIf="obj.address">
+        <div class="address-header">
+          <div class="img">
+            <app-img [fs]="obj.address.img" [dir]="'address'" [anyFs]="'assets/images/provider.svg'"></app-img>
+          </div>
+          <div class="title-provider">
+            {{obj.address.name}}
+          </div>
+        </div>
+        <div class="block-info">
+          <div class="address-item">
+            <svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.0692 4.38281C5.6597 4.38281 4.51245 5.53006 4.51245 6.93956C4.51245 8.34906 5.6597 9.49631 7.0692 9.49631C8.4787 9.49631 9.62595 8.34906 9.62595 6.93956C9.62595 5.53006 8.4787 4.38281 7.0692 4.38281ZM7.0692 8.76581C6.06221 8.76581 5.24295 7.94656 5.24295 6.93956C5.24295 5.93257 6.06221 5.11331 7.0692 5.11331C8.0762 5.11331 8.89545 5.93257 8.89545 6.93956C8.89545 7.94656 8.0762 8.76581 7.0692 8.76581Z"
+                fill="black" />
+              <path
+                d="M11.9574 2.05161C10.6344 0.728674 8.87537 0 7.00456 0C5.13339 0 3.37471 0.728674 2.05177 2.05161C-0.396498 4.49952 -0.700751 9.10532 1.39286 11.8958L7.00456 20L12.6079 11.9072C14.7099 9.10532 14.4056 4.49952 11.9574 2.05161ZM12.0154 11.4802L7.00456 18.7165L1.98566 11.4689C0.086728 8.93694 0.358839 4.77747 2.5686 2.56807C3.75347 1.3832 5.3288 0.7305 7.00456 0.7305C8.68033 0.7305 10.2557 1.3832 11.4409 2.56807C13.6507 4.77747 13.9228 8.93694 12.0154 11.4802Z"
+                fill="black" />
+            </svg>
+            {{obj.address.city.name}}
+          </div>
+          <div class="address-item">
+            {{translate.buil[language]}} {{obj.address.build}}
+          </div>
+          <div class="address-item">
+            {{translate.street[language]}} {{obj.address.street}}
+          </div>
+          <div class="address-item">
+            {{translate.department[language]}} {{obj.address.department ? obj.address.department : '--'}}
+          </div>
+        </div>
+        <div class="comment">
+          {{obj.address.comment}}
+        </div>
+      </div>
+      <div class="another-address" (click)="changeCity = true">
+        {{obj.address ? 'Выбрать другой адрес' : 'Выбрать адрес'}}
+      </div>
+    </div>
+    <div class="second-confirm">
+      <div class="header-confirm">
+        <div class="number">
+          2.
+        </div>
+        <div class="title">
+          {{translate.title2[language]}}
+        </div>
+      </div>
+      <div class="second-box">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="obj.payMethod">
+          <mat-radio-button [value]="1">
+            {{translate.method1[language]}}
+          </mat-radio-button>
+          <mat-radio-button [value]="2">
+            {{translate.method2[language]}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="date" *ngIf="obj.payMethod === 2">
+        <span>
+          Дата отсрочки:
+        </span>
+        <div class="date-box">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M14.1463 2.461C13.9344 2.24894 13.6831 2.1429 13.393 2.1429H12.3217V1.3393C12.3217 0.971065 12.1904 0.655752 11.9282 0.393475C11.6658 0.131197 11.3506 0 10.9822 0H10.4466C10.0783 0 9.763 0.131197 9.50072 0.393504C9.23836 0.655752 9.10722 0.971094 9.10722 1.33933V2.14293H5.8931V1.33933C5.8931 0.971094 5.76191 0.655781 5.4996 0.393504C5.23735 0.131197 4.92207 0 4.55369 0H4.01802C3.64973 0 3.33442 0.131197 3.07211 0.393504C2.80987 0.655752 2.67864 0.971094 2.67864 1.33933V2.14293H1.60731C1.31706 2.14293 1.06598 2.24897 0.853926 2.46103C0.64187 2.67305 0.535828 2.92425 0.535828 3.21441V13.9287C0.535828 14.2186 0.64187 14.4698 0.853926 14.682C1.06595 14.894 1.31703 15 1.60731 15H13.3928C13.6829 15 13.9343 14.894 14.146 14.682C14.3581 14.4699 14.4642 14.2186 14.4642 13.9287V3.21438C14.4642 2.92413 14.3582 2.67305 14.1463 2.461ZM4.01794 13.9286H1.60731V11.5177H4.01794V13.9286ZM4.01794 10.9822H1.60731V8.30375H4.01794V10.9822ZM4.01794 7.76779H1.60731V5.35719H4.01794V7.76779ZM3.82972 3.93835C3.77668 3.88532 3.75021 3.82266 3.75021 3.75004V1.33941C3.75021 1.26688 3.77668 1.20405 3.82972 1.15111C3.88275 1.09807 3.9454 1.0716 4.01802 1.0716H4.55369C4.62622 1.0716 4.68905 1.09807 4.742 1.15111C4.79503 1.20408 4.82157 1.26688 4.82157 1.33941V3.75004C4.82157 3.82269 4.79492 3.88535 4.742 3.93835C4.68902 3.99139 4.62631 4.01786 4.55369 4.01786H4.01802C3.94549 4.01789 3.88275 3.99139 3.82972 3.93835ZM7.23223 13.9286H4.5536V11.5177H7.23223V13.9286ZM7.23223 10.9822H4.5536V8.30375H7.23223V10.9822ZM7.23223 7.76779H4.5536V5.35719H7.23223V7.76779ZM10.4466 13.9286H7.76804V11.5177H10.4466V13.9286ZM10.4466 10.9822H7.76804V8.30375H10.4466V10.9822ZM10.4466 7.76779H7.76804V5.35719H10.4466V7.76779ZM10.2582 3.93835C10.2052 3.88532 10.1788 3.82266 10.1788 3.75004V1.33941C10.1788 1.26688 10.2052 1.20405 10.2582 1.15111C10.3112 1.09807 10.374 1.0716 10.4466 1.0716H10.9822C11.0549 1.0716 11.1176 1.09807 11.1706 1.15111C11.2236 1.20408 11.25 1.26688 11.25 1.33941V3.75004C11.25 3.82269 11.2235 3.88535 11.1706 3.93835C11.1177 3.99139 11.0549 4.01786 10.9822 4.01786H10.4466C10.374 4.01789 10.311 3.99139 10.2582 3.93835ZM13.3928 13.9286H10.982V11.5177H13.3928V13.9286ZM13.3928 10.9822H10.982V8.30375H13.3928V10.9822ZM13.3928 7.76779H10.982V5.35719H13.3928V7.76779Z"
+              fill="#009688" />
+          </svg>
+          <div class="mat-date-pick">
+            <input placeholder="дд.мм.гггг" class="date-input" [matDatepicker]="picker" (focus)="picker.open()"
+              (click)="picker.open()" [(ngModel)]="delayDate" (dateChange)="delayDateChange()">
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="main-button color" (click)="confirm()" [disabled]="blockBTN">
+        {{translate.confirm[language]}}
+      </button>
+      <button class="back-btn" (click)="closeConfirm.emit(false)">Назад</button>
+    </div>
+  </div>
+</div>
+
+<app-confirm-address *ngIf="changeCity" (cancelConfirmAddress)="cancelConfirmAddress($event)"
+  (outputConfirmAddress)="outputAddress($event)"></app-confirm-address>

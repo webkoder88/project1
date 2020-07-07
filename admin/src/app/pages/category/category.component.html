@@ -1,0 +1,186 @@
+<div class="contain">
+  <div class="contain__group" *ngIf="addShow">
+    <div class="contain__group-header">
+      <div class="title">
+        Создать категорию
+      </div>
+    </div>
+    <div class="add-section">
+      <mat-form-field class="example-full-width">
+        <input matInput type="text" placeholder="Категория" name="name" [(ngModel)]="category.name" autocomplete="off">
+      </mat-form-field>
+      <div class="group-buttons">
+        <div class="left">
+          <app-upload (onFs)="onFs($event)" [multiple]="false" *ngIf="category && category.img == ''"></app-upload>
+          <div class="mat-chip-file" *ngIf="category && category.img !== ''">
+            <div class="content">{{category.img}}</div>
+            <div class="remove-mat-chip" (click)="category.img = ''"></div>
+          </div>
+        </div>
+        <div class="right">
+          <button class="main-button" (click)="cancelAdd()">Отмена</button>
+          <button class="main-button-color" (click)="create()">Сохранить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contain__group" *ngIf="editShow">
+    <div class="contain__group-header">
+      <div class="title">
+        Редактировать категорию
+      </div>
+    </div>
+    <form (submit)="confirmEdit()" (keyup)="formCheck()" class="edit-section">
+      <mat-form-field class="example-full-width">
+        <input matInput type="text" placeholder="Категория" name="name" [(ngModel)]="editObjCopy.name"
+               autocomplete="off">
+      </mat-form-field>
+      <div *ngIf="brands && brands.length > 0">
+        <div class="box-subcategory">
+          <ng-container *ngIf="editArrayBrands && editArrayBrands.length>0">
+            <ng-container *ngFor="let item of editArrayBrands; let i = index">
+              <div class="mat-chip-file" *ngIf="item">
+                <ng-container *ngIf="item && item.name">
+                  <div class="content">{{item.name ? item.name : 'procherk'}}</div>
+                  <div class="remove-mat-chip" (click)="removeBrands(i); formCheck()"></div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+        <mat-form-field>
+          <mat-label>Бренд</mat-label>
+          <mat-select [(value)]="mainChooseBrand" (selectionChange)="addBrands(); formCheck()">
+            <mat-option *ngFor="let item of brands" [value]="item.id">
+              <ng-container *ngIf="item && item.name">
+                {{item.name}}
+              </ng-container>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="subcategory">
+        <div class="box-subcategory"
+             *ngIf="editObjCopy && editObjCopy.subCategory && editObjCopy.subCategory.length > 0">
+          <div class="mat-chip-file" *ngFor="let item of editObjCopy.subCategory; let i = index">
+            <div class="content">{{item}}</div>
+            <div class="remove-mat-chip" (click)="removeSub(i); formCheck()"></div>
+          </div>
+        </div>
+        <div class="sub-input">
+          <mat-form-field class="example-full-width">
+            <input matInput type="text" placeholder="Подкатегория" name="nameSubcategory" [(ngModel)]="subcategoryName"
+                   autocomplete="off">
+          </mat-form-field>
+          <button class="main-button-color" (click)="addSubCatergory($event)">Додать подкатегорию</button>
+        </div>
+      </div>
+      <div class="group-buttons">
+        <div class="left">
+          <app-upload (onFs)="onFsEdit($event)" [multiple]="false"
+                      *ngIf="editObjCopy && editObjCopy.img === ''"></app-upload>
+          <div class="mat-chip-file" *ngIf="editObjCopy && editObjCopy.img !== ''">
+            <div class="content">{{editObjCopy.img}}</div>
+            <div class="remove-mat-chip" (click)="editObjCopy.img = ''; formCheck()"></div>
+          </div>
+        </div>
+        <div class="right">
+          <button class="main-button" type="reset" (click)="cancelEdit()">Отмена</button>
+          <button class="main-button-color" type="submit" *ngIf="isBlok">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="contain__group">
+    <div class="contain__group-header">
+      <div class="title">
+        Все категории
+      </div>
+      <button class="button-add" (click)="openAdd()">
+        <span class="content">Создать категорию</span>
+      </button>
+    </div>
+
+    <div class="main-section">
+      <ng-container class="loading" *ngIf="!loading">
+        Загрузка...
+      </ng-container>
+      <ng-container *ngIf="loading">
+        <div class="main-section">
+          <div class="table" style="overflow-x: auto">
+            <app-filter [query]="''" [populate]="''" [inputQuery]="'name'" [apiName]="'mainCategory'"
+                        (output)="outputSearch($event)"></app-filter>
+            <table class="table">
+              <tr class="t-title">
+                <td style="min-width: 200px">
+                  Название
+                </td>
+                <td style="min-width: 200px">
+                  Подкатегории
+                </td>
+                <td style="min-width: 140px">
+                  Бренды
+                </td>
+                <td style="min-width: 180px">
+                  Дата
+                </td>
+                <td style="min-width: 140px">
+                </td>
+              </tr>
+              <tr class="row-r" *ngFor="let item of categorys; let index = index">
+                <td>
+                  <div class="col">
+                    <div class="img">
+                      <app-img [fs]="item.img"></app-img>
+                    </div>
+                    {{item.name}}
+                  </div>
+                </td>
+                <td>
+                  <span *ngFor="let sub of item.subCategory">
+                    {{sub}}
+                  </span>
+                </td>
+                <td>
+                  <span *ngFor="let brand of item.brands">
+                    {{brand.name}}
+                  </span>
+                </td>
+                <td>
+                  <div class="date">
+                    <div class="top-table-date">
+                      {{item.date | date: 'dd MMMM, yyyy'  : null : defLang}}
+                    </div>
+                    <div class="bottom-table-date">
+                      {{item.date | date: 'HH:mm'  : null : defLang}}
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="col jcc">
+                    <span class="edit-btn" (click)="edit(index)" appScrollTop></span>
+                    <span class="trash-btn" (click)="delete(index)"></span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <mat-paginator [length]="lengthPagination"
+                         [pageSize]="pageSizePagination"
+                         [pageSizeOptions]="pageSizeOptionsPagination"
+                         (page)="pageEvent($event)"
+                         *ngIf="filterShow && categorys && categorys.length > 0">
+          </mat-paginator>
+          <div class="empty-section" *ngIf="filterShow && !categorys && categorys.length === 0">
+            <p>
+              У вас нет созданых категорий
+            </p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

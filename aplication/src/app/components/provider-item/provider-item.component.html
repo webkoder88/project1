@@ -1,0 +1,42 @@
+<div class="cart-wrap" *ngIf="data && language">
+  <app-show-loyalty class="loyalty-block" [class.single]="single" [single]="single" [provider]="false" [data]="data.createdBy.loyalty" *ngIf="data.createdBy.loyalty && data.createdBy.loyalty.enabled"></app-show-loyalty>
+  <a routerLink="/{{language}}/provider/{{data._id}}" class="popular-item">
+    <span class="discount-count" [class.single]="single" *ngIf="data.createdBy.loyalty && data.createdBy.loyalty.enabled && discount">
+      {{discount}} %
+    </span>
+    <div class="sale">
+      <div class="top" *ngIf="isTop"></div>
+    </div>
+    <div class="img">
+      <app-img [dir]="'avatar'" [fs]="data.img" [anyFs]="'assets/images/provider.svg'"></app-img>
+    </div>
+    <div class="block-info">
+      <div class="block-title">
+        {{data.name}}
+      </div>
+      <div class="block-second">
+        <ng-container>
+            <div class="action">
+              {{data && data.actionCount ? data.actionCount : 0}}
+              <span *ngIf="data && data.actionCount === 1">
+                {{translate.t3[language]}}
+              </span>
+              <span *ngIf="data.actionCount >1 && data.actionCount<=4 || data.actionCount === 0">
+                {{translate.t1[language]}}
+              </span>
+              <span *ngIf="data.actionCount>4">
+                {{translate.t2[language]}}
+              </span>
+            </div>
+        </ng-container>
+      </div>
+      <div class="block-raiting">
+        <div class="raiting">
+          <mat-star-rating class="mat-rating"  [starCount]="5" [rating]="data.rating ? data.rating : 0"></mat-star-rating>
+        </div>
+      </div>
+    </div>
+  </a>
+  <app-work-time class="work-time" [data]="data.workTime" *ngIf="data.workTime"></app-work-time>
+</div>
+

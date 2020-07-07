@@ -1,0 +1,103 @@
+<div class="contain__group">
+	<div class="contain__group"  *ngIf="addShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Администратор
+			</div>
+		</div>
+		<form (submit)="create($event)" class="add-section">
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Имя" name="name"  [(ngModel)]="client.name" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<span matPrefix>+380 &nbsp;</span>
+				<input matInput type="text" [maxLength]="9" placeholder="Телефон" name="login" [(ngModel)]="client.login" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Пароль" name="pass" [(ngModel)]="client.pass" autocomplete="off">
+			</mat-form-field>
+			
+			<div class="group-buttons">
+				<div class="left">
+				</div>
+				<div class="right">
+					<button class="main-button" type="reset" (click)="cancelAdd()">Отмена</button>
+					<button class="main-button-color" type="submit">Сохранить</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div class="contain__group">
+		<div class="contain__group-header">
+			<div class="title">
+				Все администраторы
+			</div>
+			<button class="button-add" (click)="openAdd()">
+				<span class="content">Создать администратора</span>
+			</button>
+		</div>
+		<ng-container class="loading" *ngIf="!loading">
+			Загрузка...
+		</ng-container>
+		<ng-container *ngIf="loading">
+			<div class="main-section">
+				<div class="table">
+					<app-filter [apiName]="'client'" [inputQuery]="'login'" [query]="queryFilter" [populate]="''" (output)="outputSearch($event)"></app-filter>
+					<table class="table">
+						<tr class="row-h t-title">
+							<td>
+                Название
+							</td>
+							<td>
+								Дате
+							</td>
+							<td>
+							</td>
+						</tr>
+						<tr class="row-r" *ngFor="let item of list; let index = index">
+							<td>
+                <div class="col">
+								<div class="img">
+									<img src="./assets/images/user.svg" alt="" *ngIf="!item.img || item.img == ''">
+									<app-img [fs]="item.img" *ngIf="item.img && item.img !== ''"></app-img>
+								</div>
+                <div>
+                  {{item.name}} <br>
+                  {{item.login}}
+                </div>
+
+                </div>
+							</td>
+							<td>
+								<div class="date">
+									<div class="top-table-date">
+										{{item.date | date: 'dd MMMM, yyyy'  : null : defLang}}
+									</div>
+									<div class="bottom-table-date">
+										{{item.date | date: 'HH:mm'  : null : defLang}}
+									</div>
+								</div>
+							</td>
+							<td>
+                <div class="col jcc">
+								<span class="trash-btn" (click)="delete(index)"></span>
+                </div>
+							</td>
+						</tr>
+					</table>
+					
+					<mat-paginator [length]="lengthPagination"
+					               [pageSize]="pageSizePagination"
+					               [pageSizeOptions]="pageSizeOptionsPagination"
+					               (page)="pageEvent($event)"
+					               *ngIf="filterShow && list && list.length > 0">
+					</mat-paginator>
+				</div>
+				<div class="no-content" *ngIf="filterShow && list && list.length === 0">
+					У вас нет администраторов
+				</div>
+			</div>
+		</ng-container>
+	</div>
+</div>

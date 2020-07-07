@@ -1,0 +1,67 @@
+.paginator-table{
+  display: none;
+}
+
+.paginator-table-active{
+  display: block;
+}
+table{
+  width:  100%;
+}
+
+.img{
+  display: block;
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+.img-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.example-full-width{
+  width:  100%;
+}
+.status.error{
+  position: absolute;
+  top: 38px;
+  z-index: 222;
+  font-size: 11px;
+  color: #f33;
+}
+.form-pass .main-button-color{
+  margin-left: auto;
+}
+.form-pass{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.mat-chip-file {
+  .content {
+    overflow: hidden !important;
+    padding: 0 5px !important;
+  }
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
+  background-color: rgba(0, 150, 136, 0.64);
+  color: rgba(0, 150, 136, 0.64);
+}
+::ng-deep .mat-slide-toggle.mat-checked .mat-ripple-element{
+  background-color: rgba(0, 150, 136, 0.64);
+  color: rgba(0, 150, 136, 0.64);
+}
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: #009688;
+  color: #009688;
+}

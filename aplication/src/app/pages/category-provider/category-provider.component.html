@@ -1,0 +1,13 @@
+<div class="other-header">
+	<app-back-btn></app-back-btn>
+	<h2>
+		{{translate.title[language]}}
+	</h2>
+	<app-basket-item></app-basket-item>
+</div>
+
+<div class="other-pages">
+	<ng-container *ngFor="let item of category">
+		<app-category-item *ngIf="item.mainCategory" [obj]="item" [provider]="true"></app-category-item>
+	</ng-container>
+</div>

@@ -1,0 +1,124 @@
+<ng-container *ngIf="!loading">
+	<app-loading></app-loading>
+</ng-container>
+<div class="contain">
+	<div class="contain__group open-close-container" [@openClose]="addShow ? true : false" *ngIf="addShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Создать товар
+			</div>
+		</div>
+		<app-add-product *ngIf="categorys.length > 0" (outputNew)="newProduct($event)" [brands]="brands" [categorys]="categorys" (cancelAdd)="cancelAdd($event)"></app-add-product>
+		<div *ngIf="categorys && categorys.length === 0" class="nocategory">
+			У вас нет категорий, создайте категорию тогда вы сможете создать товар
+		</div>
+	</div>
+	<div class="contain__group open-close-container" [@openClose]="editShow ? true : false" *ngIf="editShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Редактировать товар
+			</div>
+		</div>
+		<app-edit-product (cancelEdit)="cancelEdit($event)" [brands]="brands" (outputChanges)="outputEdit($event)" [categorys]="categorys"  [obj]="editObj"></app-edit-product>
+	</div>
+	<div class="contain__group">
+		<div class="contain__group-header">
+			<div class="title">
+				Все товари
+			</div>
+			<button class="button-add" (click)="openAdd()">
+				<span class="content">Создать товар</span>
+			</button>
+		</div>
+		<div class="main-section">
+			<app-search-filter [inputApi]="'order'" [inputQuery]="'name'" [queryValue]="'companyOwner'" [querySearch]="user.companyOwner._id" (output)="outputSearch($event)" *ngIf="user && loading"></app-search-filter>
+			<div class="table-content" *ngIf="loading" >
+				<div class="content" *ngIf="products && products.length > 0">
+					<table class="table">
+						<tr class="t-title">
+							<td>Название</td>
+							<td style="min-width: 300px">Описание</td>
+              <td>Лояльность</td>
+							<td>Категории <br>Подкатегории</td>
+							<td>Бренд</td>
+							<td style="min-width: 100px">Цена</td>
+							<td>
+								В наличии
+							</td>
+							<td style="min-width: 180px">Дата</td>
+							<td></td>
+						</tr>
+						<tr *ngFor="let item of products; let i = index">
+							<td>
+								<div class="name-c">
+									<div class="img">
+										<app-img [dir]="'product'" [fs]="item.img"></app-img>
+									</div>
+									<div class="name">
+										{{item.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								{{item.des}}
+							</td>
+              <td>
+                {{item.loyaltyAvailable ? 'Включена' : 'Отключена'}}
+              </td>
+              <td>
+                <span *ngIf="item.categoryOwner">{{item.categoryOwner.name}}</span> <br>
+                <span class="subcategory">{{item.subCategory}}</span>
+              </td>
+              <td>
+                <span *ngIf="item.brand">{{item.brand.name}}</span>
+              </td>
+							<td>
+								<div class="pr">
+									<div class="old" [class.active]="item.discount">
+										{{item.price}} Грн
+									</div>
+									<div class="new" *ngIf="item.discount">
+										{{item.discount ? item.discount : ''}} Грн
+									</div>
+								</div>
+							</td>
+							<td>
+								{{ item.presence ? 'Да' : 'Нет' }}
+							</td>
+							<td>
+								<div class="date">
+									<div class="top-table-date">
+										{{item.date | date: 'dd MMMM, yyyy' : null : defLang}}
+									</div>
+									<div class="bottom-table-date">
+										{{item.date | date: 'HH:mm' : null : defLang}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="buttons-edit">
+									<span class="top-btn" (click)="isTop(item)" [class.done]="item.isTop">top</span>
+									<span class="edit-btn" (click)="edit(i)" appScrollTop></span>
+									<span class="trash-btn" (click)="delete(i)"></span>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<mat-paginator [length]="lengthPagination"
+			               [pageSize]="pageSizePagination"
+			               [pageSizeOptions]="pageSizeOptionsPagination"
+			               (page)="pageEvent($event)"
+			               *ngIf="products && products.length > 0">
+			</mat-paginator>
+
+			<div class="empty-section" *ngIf="loading && !products || products.length === 0">
+				<p>
+					У вас нет созданых товаров
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

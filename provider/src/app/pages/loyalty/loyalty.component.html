@@ -1,0 +1,140 @@
+<ng-container *ngIf="!loading">
+  <app-loading></app-loading>
+</ng-container>
+
+<div class="contain">
+  <div class="contain__group">
+    <div class="contain__group-header">
+      <div class="title">
+        Лояльность
+      </div>
+      <button class="button-add" *ngIf="user && !user.loyalty && !showAdd" (click)="show()">
+        <span class="content">Создать лояльность</span>
+      </button>
+<!--      <button class="button-add remove" *ngIf="user && user.loyalty">-->
+<!--        <span class="content" (click)="delete()">Удалить лояльность</span>-->
+<!--      </button>-->
+    </div>
+    <div class="main-section">
+      <div class="loyalty" *ngIf="loyaltyCopy || showAdd ">
+        <div class="toggle" *ngIf="loyaltyCopy && loyaltyCopy.createdAt">
+          <mat-slide-toggle [(ngModel)]="loyaltyCopy.enabled" (change)="toggle($event)">Лояльность {{loyaltyCopy.enabled ? 'Включена' : 'Отключена'}}</mat-slide-toggle>
+        </div>
+        <form [formGroup]="loyaltyForm">
+          <div class="section">
+            <div class="header">
+              <img src="./assets/images/bronze.png" alt="bronze">
+              Первая ступень лояльности
+            </div>
+            <div class="content">
+              <div class="input first">
+                <mat-form-field class="example-half">
+                  <input matInput type="number" formControlName="sum1" pattern="[0-9]*" placeholder="Сума покупок" [(ngModel)]="loyaltyCopy.loyalty[0].sum" (keyup)="formCheck(0)" name="sum1" autocomplete="off">
+                </mat-form-field>
+                <div class="error" *ngIf="submitted && f.sum1.errors">
+                  <div class="error" *ngIf="f.sum1.errors.required">
+                    Поле к заполнению
+                  </div>
+                </div>
+              </div>
+              <div class="input">
+                <mat-form-field class="example-half">
+                  <input matInput type="number" formControlName="discount1" pattern="[0-9]*" placeholder="Скидка в %" [(ngModel)]="loyaltyCopy.loyalty[0].discount" (keyup)="formCheck(0)" name="discount1" autocomplete="off">
+                </mat-form-field>
+                <div class="error" *ngIf="submitted && f.discount1.errors">
+                  <div class="error" *ngIf="f.discount1.errors.required">
+                    Поле к заполнению
+                  </div>
+                  <div class="error" *ngIf="f.discount1.errors.max">
+                    Скидка не может быть больше чем 100%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="header">
+              <img src="./assets/images/silver.png" alt="bronze">
+              Вторая ступень лояльности
+            </div>
+            <div class="content">
+              <div class="input first">
+                <mat-form-field class="example-half">
+                  <input matInput type="number" formControlName="sum2" pattern="[0-9]*" placeholder="Сума покупок" [(ngModel)]="loyaltyCopy.loyalty[1].sum" (keyup)="formCheck(1)" name="sum2" autocomplete="off">
+                </mat-form-field>
+                <div class="error-block">
+                  <div class="error" *ngIf="!errors.require1 && !loyaltyCopy.loyalty[1].sum">
+                    Поле к заполнению
+                  </div>
+                  <div class="error" *ngIf="errors.sum1">
+                    Сума второй ступени не может быть менше чем сума первой
+                  </div>
+                </div>
+              </div>
+              <div class="input">
+                <mat-form-field class="example-half">
+                  <input matInput type="number" formControlName="discount2" pattern="[0-9]*" placeholder="Скидка в %" [(ngModel)]="loyaltyCopy.loyalty[1].discount" (keyup)="formCheck(1)" name="discount2" autocomplete="off">
+                </mat-form-field>
+                <div class="error-block">
+                  <div class="error" *ngIf="!errors.require1 && !loyaltyCopy.loyalty[1].discount">
+                    Поле к заполнению
+                  </div>
+                  <div class="error" *ngIf="errors.discount1">
+                    Скидка второй ступени не может быть менше чем скидка первой
+                  </div>
+                  <div class="error" *ngIf="submitted && f.discount2.errors">
+                    <div class="error" *ngIf="f.discount2.errors.max">
+                      Скидка не может быть больше чем 100%
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="header">
+              <img src="./assets/images/gold.png" alt="bronze">
+              Третья ступень лояльности
+            </div>
+            <div class="content">
+              <div class="input first">
+                <mat-form-field class="example-half">
+                  <input matInput type="number" formControlName="sum3" pattern="[0-9]*" placeholder="Сума покупок" [(ngModel)]="loyaltyCopy.loyalty[2].sum" (keyup)="formCheck(2)" name="sum3" autocomplete="off">
+                </mat-form-field>
+                <div class="error-block">
+                  <div class="error" *ngIf="errors.sum2">
+                    Сума третей ступени не может быть менше чем сума второй
+                  </div>
+                  <div class="error" *ngIf="!errors.require2 && !loyaltyCopy.loyalty[2].sum">
+                    Поле к заполнению
+                  </div>
+                </div>
+              </div>
+              <div class="input">
+                <mat-form-field class="example-half">
+                  <input matInput type="number" formControlName="discount3" pattern="[0-9]*" placeholder="Скидка в %" [(ngModel)]="loyaltyCopy.loyalty[2].discount" (keyup)="formCheck(2)" name="discount3" autocomplete="off">
+                </mat-form-field>
+                <div class="error-block">
+                  <div class="error" *ngIf="errors.discount2">
+                    Скидка третей ступени не может быть менше чем скидка второй
+                  </div>
+                  <div class="error" *ngIf="!errors.require2 && !loyaltyCopy.loyalty[2].discount">
+                    Поле к заполнению
+                  </div>
+                  <div *ngIf="submitted && f.discount3.errors">
+                    <div class="error" *ngIf="f.discount3.errors.max">
+                      Скидка не может быть больше чем 100%
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="buttons">
+          <button class="main-button-color" (click)="add()" *ngIf="isBlok">Сохранить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

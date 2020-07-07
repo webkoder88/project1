@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "./assets/scss/styles";
+@import "./assets/css/popup";
+
+//html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-icon{
+  width: 100%!important;
+}
+
+//body { }
+body {height: 100%; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cropper-canvas {
+  outline: 1px solid #000;
+}
+::ng-deep .mat-button-focus-overlay, .mat-button-ripple.mat-ripple{
+  display: none!important;
+  background: transparent!important;
+}
+
+//.action-box img{
+//  object-fit: contain!important;
+//}

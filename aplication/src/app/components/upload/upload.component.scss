@@ -1,0 +1,31 @@
+.upload{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  color: #748AA1;
+  background: #fff;
+  font-weight: normal;
+  border: 0;
+  cursor: pointer;
+  width: max-content;
+  &:before{
+    content: '+';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    background: #3ab14c;
+    color: #fff;
+    border-radius: 50%;
+    line-height: initial;
+  }
+  .content{
+    margin-left: 15px;
+  }
+}

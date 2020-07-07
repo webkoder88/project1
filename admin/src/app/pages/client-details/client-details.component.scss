@@ -1,0 +1,30 @@
+.client-detail{
+  &__header{
+    h2{
+      color: #009688;
+      font-weight: 600;
+      font-size: 21px;
+      line-height: 26px;
+    }
+    .table-info{
+      padding: 25px 0;
+      border-top: 1px solid #EBEBEB;
+      border-bottom: 1px solid #EBEBEB;
+      .info-row{
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        .info-item{
+          color: #000;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 18px;
+          &:nth-of-type(1){
+            color: #748AA1;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}

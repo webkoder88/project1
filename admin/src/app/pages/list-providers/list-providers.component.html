@@ -1,0 +1,173 @@
+<div class="contain__group">
+	<div class="contain__group"  *ngIf="addShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Поставщик
+			</div>
+		</div>
+		<form (submit)="create($event)" class="add-section" *ngIf="city && city.length>0">
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Имя" name="name"  [(ngModel)]="client.name" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<span matPrefix>+380 &nbsp;</span>
+				<input matInput type="text" placeholder="Телефон" [maxLength]="9" name="login" [(ngModel)]="client.login" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Пароль" name="pass" [(ngModel)]="client.pass" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Название компании" name="name-company" [(ngModel)]="company.name" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Адрес копании" name="name-address" [(ngModel)]="company.address" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field *ngIf="city && city.length>0">
+				<mat-label>Город</mat-label>
+				<mat-select [(value)]="company.city">
+					<mat-option *ngFor="let item of city" [value]="item._id">
+						{{item.name}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+			<div class="group-buttons">
+				<div class="left">
+				</div>
+				<div class="right">
+					<button class="main-button" type="reset" (click)="cancelAdd()">Отмена</button>
+					<button class="main-button-color" type="submit">Сохранить</button>
+				</div>
+			</div>
+		</form>
+		<ng-container *ngIf="city && city.length===0">
+			У вас нет городов, вы не можете создать поставщика
+		</ng-container>
+	</div>
+
+	<div class="contain__group">
+		<div class="contain__group-header">
+			<div class="title">
+				Все поставщики
+			</div>
+			<button class="button-add" (click)="openAdd()">
+				<span class="content">Создать поставщика</span>
+			</button>
+		</div>
+		<ng-container class="loading" *ngIf="!loading">
+			Загрузка...
+		</ng-container>
+		<ng-container *ngIf="loading">
+			<div class="main-section">
+				<div class="table">
+          <div class="col">
+            <div class="filter" style="margin-right: 15px">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Фильтр по назве поставщика" name="filter" [(ngModel)]="filterInput" (keyup)="filterSearch($event)" autocomplete="off">
+              </mat-form-field>
+            </div>
+<!--	          <app-filter [apiName]="'client'" [inputQuery]="'login'" [query]="queryFilter" [populate]="''" [sort]="sortFilter" (output)="outputSearch($event)"></app-filter>-->
+            <mat-form-field *ngIf="city && city.length>0">
+              <mat-label>Город</mat-label>
+              <mat-select (valueChange)="setCityFiltr($event)">
+                <mat-option *ngFor="let item of city" [value]="item._id">
+                  {{item.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+					<table class="table">
+						<tr class="row-h t-title">
+							<td style="min-width: 240px">
+                Название
+							</td>
+							<td>
+                Телефон
+							</td>
+							<td>
+								Статус
+							</td>
+							<td>
+								Подписка
+							</td>
+              <td style="width: 180px; cursor: pointer" (click)="changeDate()">Дата</td>
+              <td>
+							</td>
+						</tr>
+            <ng-container  *ngFor="let item of list; let index = index" >
+						<tr class="row-r"  *ngIf="item">
+							<td [routerLink]="'/provider-detail/'+item._id">
+                <div class="col">
+								<div class="img">
+									<img src="./assets/images/user.svg" alt="" *ngIf="item.img == ''">
+									<app-img [fs]="item.img" *ngIf="item.img && item.img !== ''"></app-img>
+								</div>
+                  <div>
+                    {{item.name}}
+                  </div>
+                </div>
+							</td>
+              <td>
+                <span *ngIf="filterShow">
+                  {{item.createdBy && (item.createdBy.login ? item.createdBy.login : '-')}}
+                </span>
+                <span *ngIf="!filterShow">
+                  {{item.login}}
+                </span>
+              </td>
+							<td>
+								<ng-container *ngIf="item && item.verify">
+									Активен
+								</ng-container>
+								<ng-container *ngIf="item && !item.verify">
+									Не активен
+								</ng-container>
+							</td>
+							<td>
+								<div class="date">
+                  <ng-container *ngIf="item.payInfo; else noPay">
+                    <div class="top-table-date">
+                      {{item.payInfo | date: 'dd MMMM, yyyy'  : null : defLang}}
+                    </div>
+                    <div class="bottom-table-date">
+                      {{item.payInfo | date: 'HH:mm'  : null : defLang}}
+                    </div>
+                  </ng-container>
+                  <ng-template #noPay>
+                    <span class="status error">Неоплачено</span>
+                  </ng-template>
+								</div>
+							</td>
+              <td>
+                <div class="date">
+                  <div class="top-table-date">
+                    {{item.date | date: 'dd MMMM, yyyy'  : null : defLang}}
+                  </div>
+                  <div class="bottom-table-date">
+                    {{item.date | date: 'HH:mm'  : null : defLang}}
+                  </div>
+                </div>
+              </td>
+							<td>
+                <div class="col jcc">
+								<button class="main-button-color red" (click)="verifyCompany($event, false, item._id, index)" *ngIf="item && item.verify">Выключить</button>
+								<button class="main-button-color" (click)="verifyCompany($event, true, item._id, index)" *ngIf="item && !item.verify">Включить</button>
+                </div>
+              </td>
+						</tr>
+            </ng-container>
+					</table>
+				</div>
+
+        <mat-paginator [length]="lengthPagination"
+                       [pageSize]="pageSizePagination"
+                       [pageSizeOptions]="pageSizeOptionsPagination"
+                       (page)="pageEvent($event)"
+                       *ngIf="filterShow && list && list.length > 0">
+        </mat-paginator>
+				<div class="no-content" *ngIf="filterShow && list && list.length === 0">
+					У вас нет поставщиков
+				</div>
+			</div>
+		</ng-container>
+	</div>
+</div>

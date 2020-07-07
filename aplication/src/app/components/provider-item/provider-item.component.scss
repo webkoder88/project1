@@ -1,0 +1,151 @@
+.popular-item{
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  min-height: 65px;
+  border: 0.5px solid #F3F3F3;
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  .discount-count{
+    position: absolute;
+    right: 55px;
+    top: 2px;
+    color: #FF5C00;
+    font-weight: 600;
+    font-size: 14px;
+    &.single{
+      right: 30px;
+    }
+  }
+  .sale{
+    position: absolute;
+    right: 0;
+    top: 0;
+    .top{
+      width: 20px;
+      height: 20px;
+      border-radius: 15px;
+      right: 0;
+      top: 0;
+      background: #FF5C00;
+      box-shadow: 0 4px 3px rgba(0, 0, 0, 0.03);
+      &:before{
+        content: 'ТОП';
+        display: block;
+        width: max-content;
+        margin: 0 auto;
+        line-height: 20px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 7px;
+      }
+    }
+  }
+
+  .img{
+    border-radius: 15px;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    overflow: hidden;
+    align-self: center;
+  }
+  .block-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(100% - 60px);
+  }
+  .block-second{
+    width: 100%;
+    margin: 5px 0;
+    .action{
+      width: max-content;
+      padding: 1px 3px;
+      border-radius: 5px;
+      border: 1px solid #FF5C00;
+      color: #FF5C00;
+      font-size: 8px;
+      line-height: 10px;
+    }
+  }
+  .block-title{
+    width: 100%;
+    font-size: 12px;
+    max-width: 154px;
+  }
+  .block-raiting{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    .raiting{
+      position: relative;
+      .mat-rating{
+        margin-top: -5px;
+        background: transparent;
+      }
+    }
+    .work-time{
+      display: flex;
+      align-items: center;
+      color: #545454;
+      svg{
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.cart-wrap{
+  position: relative;
+}
+
+.work-time{
+  position: absolute;
+  right: 7px;
+  bottom: 5px;
+}
+
+.loyalty-block{
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  .single{
+    right: 0;
+  }
+}
+
+::ng-deep .mat-icon-button .mat-icon, .mat-icon-button i{
+  line-height: normal!important;
+}
+::ng-deep .mat-ic{
+  height: auto!important;
+  font-size: 13px;
+}
+::ng-deep .mat-rating button{
+  width: 11px!important;
+  max-width: 11px!important;
+}
+::ng-deep .mat-rating{
+  height: 11px;
+}
+
+@media (min-width: 360px) {
+  .popular-item{
+    min-height: 75px;
+    .img{
+      height: 60px;
+      width: 60px;
+      margin-right: 5px;
+    }
+    .block-info{
+      .block-title{
+        max-width: 200px;
+      }
+    }
+  }
+}

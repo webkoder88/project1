@@ -1,0 +1,130 @@
+<ng-container *ngIf="!loading">
+	<app-loading></app-loading>
+</ng-container>
+<ng-container>
+	<div class="create-client">
+		<div class="contain" *ngIf="showCollaborator">
+			<div class="contain__group">
+				<div class="contain__group-header">
+					Создать сотрудника
+				</div>
+			</div>
+			<div class="client-form">
+				<form (submit)="create($event)" class="form">
+					<mat-form-field class="example-full-width">
+						<input matInput type="text" placeholder="Имя" [(ngModel)]="client.name" name="name" autocomplete="off">
+					</mat-form-field>
+					<mat-form-field class="example-full-width">
+						<span matPrefix>+380 &nbsp;</span>
+						<input matInput type="text" [maxLength]="9" placeholder="Телефон" [(ngModel)]="client.login" name="name" autocomplete="off">
+					</mat-form-field>
+					<mat-form-field class="example-full-width">
+						<input matInput type="text" placeholder="Пароль" [(ngModel)]="client.pass" name="name" autocomplete="off">
+					</mat-form-field>
+					
+					<div class="group-buttons">
+						<div class="left">
+						</div>
+						<div class="right">
+							<button class="main-button" type="reset" (click)="cancelAdd()">Отмена</button>
+							<button class="main-button-color" type="submit">Сохранить</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="contain__group"  *ngIf="editShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Редактировать cотрудника
+			</div>
+		</div>
+		<form (submit)="confirmEditCategoryCrud($event)" (keyup)="formCheck()" class="edit-section" *ngIf="editShow">
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Name" [(ngModel)]="editObj.name" name="name" autocomplete="off">
+			</mat-form-field>
+			
+			<div class="group-buttons">
+				<div class="left">
+				</div>
+				<div class="right">
+					<button class="main-button" type="reset" (click)="cancelEdit()">Отмена</button>
+					<button class="main-button-color" type="submit" *ngIf="isBlok">Сохранить</button>
+				</div>
+			</div>
+		</form>
+    <div class="form-pass">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Пароль" name="password" (keyup)="passErr = ''" [(ngModel)]="newPass" autocomplete="off">
+      </mat-form-field>
+      <p class="status error" *ngIf="passErr">{{passErr}}</p>
+      <button type="button" class="main-button-color" (click)="savePass()">Сохранить</button>
+    </div>
+	</div>
+	<div class="contain__group">
+		<div class="contain__group-header">
+			<div class="title">
+				Все сотрудники
+			</div>
+			<button class="button-add" (click)="createCollaborator()">
+				<span class="content">Создать сотрудника</span>
+			</button>
+		</div>
+		<div class="main-section">
+			<ng-container *ngIf="loading">
+<!--				<app-search-filter [inputApi]="'client'" [inputQuery]="'login'" [queryValue]="'companyOwner'" [querySearch]="user.companyOwner" (output)="outputSearch($event)"></app-search-filter>-->
+				<div class="table-content" *ngIf="clients && clients.length > 0">
+					<div class="content" *ngIf="loading">
+						<table *ngIf="clients && clients.length > 0" class="table">
+							<tr class="t-title">
+								<td style="min-width: 200px">Название</td>
+								<td style="min-width: 200px">Логин</td>
+								<td style="min-width: 180px">Дата</td>
+								<td style="min-width: 200px"></td>
+							</tr>
+							<tr *ngFor="let item of clients; let i = index">
+								<td>
+									{{item.name}}
+								</td>
+								<td>
+                  {{item.login}}
+								</td>
+								<td>
+									<div class="date">
+										<div class="top-table-date">
+											{{item.date | date: 'dd MMMM, yyyy' : null : defLang}}
+										</div>
+										<div class="bottom-table-date">
+											{{item.date | date: 'HH:mm' : null : defLang}}
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="buttons-edit">
+										<span class="edit-btn" (click)="edit(i)" appScrollTop></span>
+										<span class="trash-btn" (click)="delete(i)"></span>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
+				<mat-paginator [length]="lengthPagination"
+				               [pageSize]="pageSizePagination"
+				               [pageSizeOptions]="pageSizeOptionsPagination"
+				               (page)="pageEvent($event)"
+				               *ngIf="clients && clients.length > 0">
+				</mat-paginator>
+				<div class="empty-section" *ngIf="!clients || clients.length === 0">
+					<p>
+						У вас нет сотрудников
+					</p>
+				</div>
+			</ng-container>
+		</div>
+	</div>
+
+</ng-container>

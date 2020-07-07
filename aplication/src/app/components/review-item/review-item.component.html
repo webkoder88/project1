@@ -1,0 +1,20 @@
+<div class="item">
+  <div class="client">
+    <div class="image-wrapper">
+      <div class="img">
+        <app-img [fs]="review.createdBy.img" [dir]="'avatar'" *ngIf="review.createdBy.img !== ''; else usersvg">
+        </app-img>
+        <ng-template #usersvg>
+          <img src="./assets/images/user.svg" alt="user-svg">
+        </ng-template>
+      </div>
+      {{review.createdBy.name}}
+    </div>
+    <div class="date">
+      {{review.date | date: 'dd MM, yyyy'  : null}} {{review.date  | date: 'HH:mm'  : null}}
+    </div>
+  </div>
+  <div class="comment">
+    {{review.comment}}
+  </div>
+</div>

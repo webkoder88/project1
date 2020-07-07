@@ -1,0 +1,22 @@
+<div class="other-header">
+  <app-back-btn></app-back-btn>
+  <h2>
+    {{translate.title[language]}}
+  </h2>
+  <app-basket-item></app-basket-item>
+</div>
+
+<div class="other-pages" *ngIf="newItem">
+  <app-new-item [obj]="newItem"></app-new-item>
+  <div class="buttons">
+    <a routerLink="/{{language}}/provider/{{newItem.companyOwner._id}}" class="main-button color">
+      {{translate.btn_provider[language]}}
+    </a>
+    <a routerLink="/{{language}}/product/{{newItem.orderOwner}}" class="main-button color" *ngIf="newItem.orderOwner">
+      {{translate.btn_product[language]}}
+    </a>
+    <a (click)="back()" class="back-btn">
+      {{translate.btn_back[language]}}
+    </a>
+  </div>
+</div>

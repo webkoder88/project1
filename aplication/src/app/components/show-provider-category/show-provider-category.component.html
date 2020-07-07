@@ -1,0 +1,4 @@
+<cdk-virtual-scroll-viewport itemSize="120" class="viewport" appScrollUpdateCategory [idCategory]="catId" [idCompany]="id" (output)="getOutput($event)">
+	<app-product-item [data]="item" [discount]="discount" *cdkVirtualFor="let item of products"></app-product-item>
+</cdk-virtual-scroll-viewport>
+

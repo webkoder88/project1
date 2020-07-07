@@ -1,0 +1,207 @@
+<div class="contain__group">
+	<div class="contain__group" *ngIf="addShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Клиент
+			</div>
+		</div>
+		<form (submit)="create($event)" class="add-section">
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Имя" name="name" [(ngModel)]="client.name" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<span matPrefix>+380 &nbsp;</span>
+				<input matInput type="text" [maxLength]="9" placeholder="Телефон" name="login" [(ngModel)]="client.login"
+					autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Пароль" name="pass" [(ngModel)]="client.pass" autocomplete="off">
+			</mat-form-field>
+			<div class="checkbox">
+				<mat-checkbox [(ngModel)]="client.isFop" name="isFop">
+					ФОП
+				</mat-checkbox>
+			</div>
+
+			<div class="group-buttons">
+				<app-upload (onCrop)="onFs(client, $event)" *ngIf="client.isFop" [cropper]="true" [dir]="'fop'"></app-upload>
+
+				<div class="img-item" *ngFor="let img of client.fopDocuments">
+					<div class="img">
+						<app-img [dir]="'fop'" [fs]="img"></app-img>
+					</div>
+
+					<div class="mat-chip-file">
+						<div class="content">{{img}}</div>
+						<div class="remove-mat-chip" (click)="removeImg(client, img)"></div>
+					</div>
+				</div>
+			</div>
+
+			<mat-form-field class="example-full-width">
+				<input matInput placeholder="ИНН" name="idNumber" [(ngModel)]="client.idNumber" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<input matInput placeholder="Адрес" name="address" [(ngModel)]="client.address" autocomplete="off">
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<input matInput placeholder="Примечание" name="notes" [(ngModel)]="client.notes" autocomplete="off">
+			</mat-form-field>
+
+			<div class="group-buttons">
+				<div class="left">
+				</div>
+				<div class="right">
+					<button class="main-button" type="reset" (click)="cancelAdd()">Отмена</button>
+					<button class="main-button-color" type="submit">Сохранить</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="contain__group">
+		<div class="contain__group-header">
+			<div class="title">
+				Все клиенты
+			</div>
+			<button class="button-add" (click)="openAdd()">
+				<span class="content">Создать клиента</span>
+			</button>
+		</div>
+
+		<ng-container class="loading" *ngIf="!loading">
+			Загрузка...
+		</ng-container>
+		<ng-container *ngIf="loading">
+			<div class="main-section">
+				<div class="table">
+					<app-filter [apiName]="'client'" [inputQuery]="'login'" [query]="queryFilter" [populate]="''"
+						(output)="outputSearch($event)"></app-filter>
+					<table class="table-content table">
+						<tr class="row-h t-title">
+							<td>Название</td>
+							<td style="width: 100px">Блокирован</td>
+							<td style="width: 100px">Номер подтвержден</td>
+							<td style="width: 100px">ФОП</td>
+							<td style="width: 180px; cursor: pointer" (click)="changeDate()">Дата</td>
+							<td></td>
+						</tr>
+						<tr class="row-r" *ngFor="let item of list; let index = index">
+							<td [routerLink]="'/client-detail/'+item._id">
+								<div class="col">
+									<div class="img">
+										<img src="./assets/images/user.svg" alt="" *ngIf="!item.img || item.img == ''">
+										<app-img [fs]="item.img" [dir]="'avatar'" *ngIf="item.img && item.img !== ''"></app-img>
+									</div>
+									<div>
+										{{item.name}} <br>
+										{{item.mobile ? item.mobile : item.login}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<mat-slide-toggle [checked]="item.banned" (toggleChange)="banned(item)"></mat-slide-toggle>
+							</td>
+							<td>
+								<mat-slide-toggle [checked]="item.verify" (toggleChange)="verify(item)"></mat-slide-toggle>
+							</td>
+
+							<td>
+								{{item.isFop ? 'Да' : 'Нет'}}
+							</td>
+							<td>
+								<div class="date">
+									<div class="top-table-date">
+										{{item.date | date: 'dd MMMM, yyyy'  : null : defLang}}
+									</div>
+									<div class="bottom-table-date">
+										{{item.date | date: 'HH:mm'  : null : defLang}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="col jcc">
+									<span class="edit-btn" (click)="edit(item)" appScrollTop></span>
+								</div>
+							</td>
+						</tr>
+					</table>
+
+					<mat-paginator [length]="lengthPagination" [pageSize]="pageSizePagination"
+						[pageSizeOptions]="pageSizeOptionsPagination" (page)="pageEvent($event)"
+						*ngIf="filterShow && list && list.length > 0">
+					</mat-paginator>
+				</div>
+				<div class="no-content" *ngIf="filterShow && list && list.length === 0">
+					У вас нет клиентов
+				</div>
+			</div>
+		</ng-container>
+	</div>
+</div>
+
+<ng-container *ngIf="clientEdit">
+	<div class="popup" appPopup (onClose)="close()">
+		<div class="content">
+			<br><br><br>
+			<div class="cancel cansel-popup-btn">
+				<svg fill="none" height="15" viewBox="0 0 15 15" width="15" xmlns="http://www.w3.org/2000/svg">
+					<path _ngcontent-ltd-c12=""
+						d="M14.8221 13.9619L8.36014 7.49995L14.822 1.03809C15.0595 0.800639 15.0595 0.41559 14.822 0.17811C14.5845 -0.0593701 14.1995 -0.0593701 13.962 0.17811L7.50016 6.63997L1.03825 0.17811C0.800798 -0.0593701 0.41575 -0.0593701 0.17827 0.17811C-0.0592098 0.415561 -0.0592098 0.80061 0.17827 1.03809L6.64015 7.49995L0.17827 13.9619C-0.0592098 14.1993 -0.0592098 14.5844 0.17827 14.8218C0.415721 15.0593 0.800769 15.0593 1.03825 14.8218L7.50016 8.35993L13.9621 14.8218C14.1995 15.0593 14.5846 15.0593 14.8221 14.8218C15.0595 14.5844 15.0595 14.1993 14.8221 13.9619Z"
+						fill="black"></path>
+				</svg>
+			</div>
+			<form class="form form-pass" (submit)="saveClient()">
+				<mat-form-field class="example-full-width">
+					<input matInput placeholder="ФИО" name="name" [(ngModel)]="clientEdit.name" autocomplete="off">
+				</mat-form-field>
+				<mat-checkbox [(ngModel)]="clientEdit.isFop" name="isFop">
+					ФОП
+				</mat-checkbox>
+
+				<div class="group-buttons">
+					<app-upload (onCrop)="onFs(clientEdit, $event)" *ngIf="clientEdit.isFop" [cropper]="true" [dir]="'fop'">
+					</app-upload>
+
+					<div class="img-item" *ngFor="let img of clientEdit.fopDocuments">
+						<div class="img">
+							<app-img [dir]="'fop'" [fs]="img"></app-img>
+						</div>
+
+						<div class="mat-chip-file">
+							<div class="content">{{img}}</div>
+							<div class="remove-mat-chip" (click)="removeImg(clientEdit, img)"></div>
+						</div>
+					</div>
+				</div>
+
+				<mat-form-field class="example-full-width">
+					<input matInput placeholder="ИНН" name="idNumber" [(ngModel)]="clientEdit.idNumber" autocomplete="off">
+				</mat-form-field>
+				<mat-form-field class="example-full-width">
+					<input matInput placeholder="Адрес" name="address" [(ngModel)]="clientEdit.address" autocomplete="off">
+				</mat-form-field>
+				<mat-form-field class="example-full-width">
+					<input matInput placeholder="Примечание" name="notes" [(ngModel)]="clientEdit.notes" autocomplete="off">
+				</mat-form-field>
+				<button type="submit" class="main-button-color">Сохранить</button>
+			</form>
+			<form class="form form-pass" (submit)="changePhone()">
+				<mat-form-field class="example-full-width">
+					<span matPrefix>+38&nbsp;</span>
+					<input matInput placeholder="Тел." type="tel" name="mobile" pattern="[0-9]*" [(ngModel)]="clientEdit.mobile"
+						autocomplete="off">
+				</mat-form-field>
+				<button type="submit" class="main-button-color" *ngIf="clientEdit.mobile.length === 10">Сохранить</button>
+			</form>
+			<div class="form-pass">
+				<mat-form-field class="example-full-width">
+					<input matInput placeholder="Пароль" name="password" (keyup)="passErr = ''" [(ngModel)]="newPass"
+						autocomplete="off">
+				</mat-form-field>
+				<p class="status error" *ngIf="passErr">{{passErr}}</p>
+				<button type="button" class="main-button-color" (click)="savePass()">Сохранить</button>
+			</div>
+		</div>
+	</div>
+</ng-container>

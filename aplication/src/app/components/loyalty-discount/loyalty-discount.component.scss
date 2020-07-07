@@ -1,0 +1,15 @@
+.sale{
+  .price-item{
+    text-decoration-line: line-through;
+    font-size: 12px;
+    line-height: 15px;
+    font-weight: bold;
+  }
+  .new-price{
+    display: block;
+    color: #FF3131;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

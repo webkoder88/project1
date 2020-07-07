@@ -1,0 +1,92 @@
+.work-time{
+  margin-top: 20px;
+  &-header{
+    color: #748AA1;
+    padding: 20px 0;
+  }
+  &-box{
+    display: flex;
+    flex: 1 1;
+    flex-wrap: wrap;
+    .work-time-item{
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+      padding: 10px 0;
+      color: #748AA1;
+      min-width: 50%;
+      max-width: 450px;
+      .row{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        .day{
+          width: 150px;
+        }
+        .group{
+          padding: 0 10px;
+          input{
+            width: 60px;
+            text-align: center;
+            margin: 0 10px;
+            color: #748AA1;
+          }
+        }
+        .check{
+          display: flex;
+          align-items: center;
+          margin: 5px 0 0;
+          .mat-checkbox{
+            &:nth-of-type(1){
+              margin-right: 25px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1105px) {
+  .work-time{
+    &-header{
+    }
+    &-box{
+      .work-time-item{
+       &:nth-of-type(1){
+         order: 0;
+       }
+       &:nth-of-type(2){
+         order: 5;
+       }
+       &:nth-of-type(3){
+         order: 1;
+       }
+       &:nth-of-type(4){
+         order: 6;
+       }
+       &:nth-of-type(5){
+         order: 2;
+       }
+       &:nth-of-type(6){
+         order: 7;
+       }
+       &:nth-of-type(7){
+         order: 3;
+       }
+       &:nth-of-type(8){
+         order: 8;
+       }
+      }
+    }
+  }
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+::ng-deep .clock-face__number[_ngcontent-aoa-c12] > span.active[_ngcontent-aoa-c12]{
+  background-color: #009688 !important;
+}

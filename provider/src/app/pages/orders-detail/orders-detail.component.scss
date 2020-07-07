@@ -1,0 +1,99 @@
+.status-info{
+  display: flex;
+  align-items: center;
+  .name{
+    margin-right: 25px;
+  }
+}
+
+.main-info{
+  border-bottom: 1px solid #EBEBEB;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  .info-item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    .title{
+      color: #748AA1;
+      margin-right: 20px;
+    }
+    .content{
+      display: inline-flex;
+      align-items: center;
+      color: #31394D;
+    }
+  }
+}
+.no-content{
+  padding: 10px 0;
+}
+
+.total-price{
+  margin: 0 5px;
+  font-weight: bold;
+}
+.group-buttons{
+  .left{
+    width: 30%;
+  }
+  .right{
+    width: 100%;
+    .edit{
+      margin-left: 25px;
+      color: #F4A100;
+      border: 1px solid #F4A100;
+    }
+    .back{
+      margin-left: 25px;
+    }
+    .remove{
+      margin-left: 25px;
+      color: #E21B1B;
+      border: 1px solid #E21B1B;
+    }
+  }
+}
+
+.dialog{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 13;
+  .dialog-content{
+    border-radius: 10px;
+    padding: 30px 40px;
+    background: #fff;
+    z-index: 4;
+    textarea{
+      resize: none;
+      width: 100%;
+      height: 100px;
+    }
+    .buttons{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 16px 0;
+    }
+  }
+  .dialog-close{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.36);
+  }
+}
+
+.edit-description{
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin-left: 15px;
+}

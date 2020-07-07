@@ -1,0 +1,120 @@
+<div class="contain">
+  <div class="contain__group" *ngIf="addShow">
+    <div class="contain__group-header">
+      <div class="title">
+        Создать город
+      </div>
+    </div>
+    <form (submit)="create()" class="add-section">
+      <mat-form-field class="example-full-width">
+        <input matInput type="text" placeholder="Город" [(ngModel)]="city.name" name="city" autocomplete="off">
+      </mat-form-field>
+      <div class="group-buttons">
+        <div class="left">
+          <app-upload (onFs)="onFs($event)" *ngIf="city && city.img === ''"></app-upload>
+          <div class="mat-chip-file" *ngIf="city && city.img !== ''">
+            <div class="content">{{city.img}}</div>
+            <div class="remove-mat-chip" (click)="city.img = ''"></div>
+          </div>
+        </div>
+        <div class="right">
+          <button class="main-button" type="reset" (click)="cancelAdd()">Отмена</button>
+          <button class="main-button-color" type="submit">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="contain__group" *ngIf="editShow">
+    <div class="contain__group-header">
+      <div class="title">
+        Редактировать город
+      </div>
+    </div>
+    <form (submit)="confirmEdit()" (keyup)="formCheck()" class="edit-section" *ngIf="editShow">
+      <mat-form-field class="example-full-width">
+        <input matInput type="text" placeholder="Город" [(ngModel)]="editObj.name" name="editcity" autocomplete="off">
+      </mat-form-field>
+      <div class="group-buttons">
+        <div class="left">
+          <app-upload *ngIf="editObjCopy.img == ''" (onFs)="onFsEdit($event)"></app-upload>
+          <div class="mat-chip-file" *ngIf="editObjCopy && editObjCopy.img !== ''">
+            <div class="content">{{editObjCopy.img}}</div>
+            <div class="remove-mat-chip" (click)="editObjCopy.img = ''; formCheck()"></div>
+          </div>
+        </div>
+        <div class="right">
+          <button class="main-button" type="reset" (click)="cancelEdit()">Отмена</button>
+          <button class="main-button-color" type="submit" *ngIf="isBlok">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="contain__group">
+    <div class="contain__group-header">
+      <div class="title">
+        Все города
+      </div>
+      <button class="button-add" (click)="openAdd()">
+        <span class="content">Создать город</span>
+      </button>
+    </div>
+    <ng-container class="loading" *ngIf="!loading">
+      Загрузка...
+    </ng-container>
+    <ng-container *ngIf="loading">
+      <div class="main-section">
+        <div class="table">
+          <app-filter [query]="''" [populate]="''" [apiName]="'city'" [inputQuery]="'name'"
+                      (output)="outputSearch($event)"></app-filter>
+          <table class="table">
+            <tr class="row-h t-title">
+              <td>Название</td>
+              <td>Дата</td>
+              <td></td>
+            </tr>
+            <tr class="row-r" *ngFor="let item of citys; let index = index">
+              <td>
+                <div class="col">
+                  <div class="img city">
+                    <img src="./assets/images/user.svg" alt="" *ngIf="!item.img || item.img == ''">
+                    <app-img class="img-city" [fs]="item.img" *ngIf="item.img && item.img !== ''"></app-img>
+                  </div>
+                  {{item.name}}
+                </div>
+              </td>
+              <td>
+                <div class="date">
+                  <div class="top-table-date">
+                    {{item.date | date: 'dd MMMM, yyyy'  : null : defLang}}
+                  </div>
+                  <div class="bottom-table-date">
+                    {{item.date | date: 'HH:mm'  : null : defLang}}
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="col jcc">
+                  <span class="edit-btn" (click)="edit(index)" appScrollTop></span>
+                  <span class="trash-btn" (click)="delete(index)"></span>
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <mat-paginator [length]="lengthPagination"
+                         [pageSize]="pageSizePagination"
+                         [pageSizeOptions]="pageSizeOptionsPagination"
+                         (page)="pageEvent($event)"
+                         *ngIf="filterShow && citys && citys.length > 0">
+          </mat-paginator>
+        </div>
+        <div class="no-content" *ngIf="filterShow && citys && citys.length === 0">
+          У вас нет городов
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+</div>

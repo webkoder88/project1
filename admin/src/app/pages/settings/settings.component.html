@@ -1,0 +1,110 @@
+<ng-container *ngIf="loaded">
+	<div class="contain">
+		<div class="contain__group">
+			<div class="contain__group-header">
+				Настройки
+			</div>
+		</div>
+		<div class="contain__group">
+			<div class="contain__group-header">
+				<div class="title">
+					Город выбран по умолчанию
+				</div>
+				<button class="button-add" (click)="openAddCity()" *ngIf="setting && !setting.city">
+					<span class="content">Додать город</span>
+				</button>
+			</div>
+			<div class="main-section">
+				<div class="add-city" *ngIf="showAddCity && city.length>0">
+					<select [(ngModel)]="cityChoose">
+						<option *ngFor="let item of city" [value]="item._id">{{item.name}}</option>
+					</select>
+					<div class="group-buttons">
+						<div class="left">
+						</div>
+						<div class="right">
+							<button class="main-button" (click)="cancelAddCity()">Отмена</button>
+							<button class="main-button-color" (click)="confirmCity()">Сохранить</button>
+						</div>
+					</div>
+				</div>
+				<div class="city" *ngIf="setting && setting.city">
+					<div class="img">
+						<app-img [fs]="setting.city.img"></app-img>
+					</div>
+					{{setting.city.name}}
+					<button class="main-button-color" (click)="showAddCity = true;" style="width: 200px">Изменить город</button>
+				</div>
+			</div>
+		</div>
+		<div class="contain__group" *ngIf="loading">
+			<div class="contain__group-header">
+				<div class="title">
+					Карта
+				</div>
+				<button class="button-add" (click)="openAddCard()" *ngIf="!user || !user.card || user.card.number === ''">
+					<span class="content">Создать карту</span>
+				</button>
+			</div>
+			<div class="main-section">
+				<div class="card-block" *ngIf="user && user.publikKey
+				&& user.privateKey && user.amount && user.payDate; else cardEmpty">
+					Карта подключена
+					<button class="main-button-color" style="width: max-content" (click)="removeCard()">Редактировать карту</button>
+				</div>
+				<div class="add-card" *ngIf="showAddCard">
+					<form (submit)="createCard($event)">
+              <mat-form-field class="example-full-width width-auto">
+                <input matInput type="text" placeholder="privateKey" name="cardName" [(ngModel)]="user.privateKey" >
+              </mat-form-field>
+              <br>
+              <mat-form-field class="example-full-width width-auto">
+                <input matInput type="text" placeholder="publikKey" name="publikKey" [(ngModel)]="user.publikKey" >
+              </mat-form-field>
+              <br>
+              <mat-form-field class="example-full-width width-auto">
+                <input matInput type="number" placeholder="500 грн" name="amount" [(ngModel)]="user.amount" >
+              </mat-form-field>
+              <br>
+              <mat-form-field class="example-full-width width-auto">
+                <input matInput type="number" placeholder="1 месяц" name="payDate" [(ngModel)]="user.payDate" >
+              </mat-form-field>
+						<div class="group-buttons">
+							<div class="left">
+							</div>
+							<div class="right">
+								<button class="main-button" type="reset" (click)="cancelAddCard()">Отмена</button>
+								<button class="main-button-color" type="submit">Сохранить</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--<div class="contain__group pay-info" *ngIf="loading">-->
+			<!--<div class="contain__group-header">-->
+				<!--<div class="title">-->
+					<!--Сума и период оплаты-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="main-section pay-section">-->
+				<!--<div class="sum">-->
+					<!--<mat-form-field class="example-full-width">-->
+						<!--<input matInput type="number" placeholder="Цена" name="price" [(ngModel)]="objPayInfo.price" autocomplete="off">-->
+					<!--</mat-form-field>-->
+				<!--</div>-->
+				<!--<div class="time">-->
+					<!--<mat-form-field class="example-full-width">-->
+						<!--<input matInput type="text" placeholder="Период" name="period" [(ngModel)]="objPayInfo.period" autocomplete="off">-->
+					<!--</mat-form-field>-->
+				<!--</div>-->
+				<!--<button class="main-button-color" (click)="savePayInfo()">-->
+					<!--Изменить-->
+				<!--</button>-->
+			<!--</div>-->
+		<!--</div>-->
+	</div>
+</ng-container>
+<ng-template #cardEmpty>
+  У вас не додана банковская карта
+</ng-template>

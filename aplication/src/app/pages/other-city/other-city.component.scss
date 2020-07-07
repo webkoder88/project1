@@ -1,0 +1,69 @@
+::ng-deep .phone{
+  color: #8D8D8D!important;
+  .text{
+    color: #8D8D8D!important;
+  }
+  input{
+    color: #8D8D8D!important;
+    border-bottom: 1px solid #8D8D8D!important;
+  }
+}
+.back-btn{
+  display: block;
+  line-height: 40px;
+  height: 40px;
+  text-align: center;
+  color: #1C1C1C;
+  text-transform: uppercase;
+  border-radius: 15px;
+  width: 200px;
+  margin: 10px auto;
+  border: 1px solid #3ab14c;
+}
+p{
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  margin: 0 0 15px;
+  color: #1C1C1C;
+}
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  input{
+    width: 100%;
+    max-width: 286px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #8D8D8D;
+    color: rgba(28, 28, 28, 1);
+    margin-bottom: 30px;
+    background: transparent;
+    padding: 3px 5px;
+    &::placeholder {
+      color: rgba(28, 28, 28, 0.31);
+      opacity: 1;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+    }
+
+    &:-ms-input-placeholder {
+      color: rgba(28, 28, 28, 0.31);
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+    }
+
+    &::-ms-input-placeholder {
+      color: rgba(28, 28, 28, 0.31);
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+    }
+  }
+  button{
+    margin: 25px auto 15px;
+  }
+}

@@ -1,0 +1,394 @@
+<ng-container *ngIf="!loading">
+	<app-loading></app-loading>
+</ng-container>
+<div class="contain">
+	<div class="contain__group"  *ngIf="addShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Создать должника
+			</div>
+		</div>
+		<div class="add-section">
+			<mat-form-field class="example-full-width">
+				<input type="text" placeholder="Tel" aria-label="Number" name="inputSearch" matInput [(ngModel)]="inputChange" [matAutocomplete]="auto" (keyup)="change()">
+				<mat-autocomplete #auto="matAutocomplete">
+					<mat-option *ngFor="let item of searchDebtors" [value]="item.login" (click)="inputChange=item.login">
+						<div class="option">
+							<div class="img">
+								<app-img [fs]="item.img" [dir]="'avatar'" *ngIf="item.img !== ''; else usersvg"></app-img>
+								<ng-template #usersvg>
+									<img src="./assets/images/user.svg" alt="user-svg">
+								</ng-template>
+							</div>
+							{{item.login}}
+						</div>
+					</mat-option>
+				</mat-autocomplete>
+			</mat-form-field>
+			<mat-form-field class="example-full-width">
+				<input matInput type="text" placeholder="Сумма долга" aria-label="Number" name="value" [(ngModel)]="debtor.value">
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput [matDatepicker]="picker" placeholder="дд мм гггг" [min]="minDate" [(ngModel)]="debtor.dataCall" (focus)="picker.open()">
+				<mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+				<mat-datepicker touchUi #picker></mat-datepicker>
+			</mat-form-field>
+			<div class="group-buttons">
+				<div class="left">
+				</div>
+				<div class="right">
+					<button class="main-button" (click)="cancelAdd()">Отмена</button>
+					<button class="main-button-color" (click)="create()">Сохранить</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="contain__group"  *ngIf="editShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Редактировать должника
+			</div>
+		</div>
+		<form class="edit-section" (submit)="confirmEditCategoryCrud($event)" (keyup)="formCheck()" *ngIf="editShow">
+			<mat-form-field class="example-full-width">
+				<input type="text" placeholder="Сумма долга" aria-label="Number" name="value" matInput [(ngModel)]="editObj.value">
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput [matDatepicker]="picker" name="date" placeholder="дд мм гггг" [min]="minDate" [(ngModel)]="editObj.dataCall" (ngModelChange)="formCheck()" (focus)="picker.open()">
+				<mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+				<mat-datepicker touchUi #picker></mat-datepicker>
+			</mat-form-field>
+      <div class="product-box" *ngIf="editBasketInfo && editBasketInfo.products.length > 0; else emptyBasketAll">
+        <div class="product-item" >
+          <div class="name h">
+            Продукт
+          </div>
+          <div class="count h">
+            Количество
+          </div>
+          <div class="price h">
+            Цена
+          </div>
+        </div>
+        <div class="product-item" *ngFor="let item of editBasketInfo.products; let i = index">
+          <ng-container *ngIf="item.orderOwner else emptyBasket">
+            <div class="name name-product">
+              <div class="img-product" *ngIf="item.orderOwner.img">
+                <app-img [fs]="item.orderOwner.img" dir="product"></app-img>
+              </div>
+              <div class="span">
+                {{item.orderOwner ? item.orderOwner.name : 'Неизвестно'}}
+              </div>
+            </div>
+            <div class="count">
+              <span class="count-item">{{item.count ? item.count : 'Неизвестно'}} шт.</span>
+            </div>
+            <div class="price">
+              {{item.price ? item.price : 'Неизвестно'}} Грн.
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="group-buttons">
+				<div class="left">
+				</div>
+				<div class="right">
+					<button class="main-button" type="reset" (click)="cancelEdit()">Отмена</button>
+					<span class="main-button-color" (click)="paydFull()" *ngIf="editObjCopy.value > 0">Оплачен</span>
+					<button class="main-button-color" type="submit" *ngIf="isBlok && editObj.value > 0">Сохранить</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="contain__group">
+		<div class="contain__group-header">
+			<div class="title">
+				Все должники
+			</div>
+			<button class="button-add" (click)="openAdd()">
+				<span class="content">Создать должника</span>
+			</button>
+		</div>
+		<div class="main-section">
+			<form (submit)="searchDeb()" class="search">
+				<mat-form-field class="example-full-width">
+					<input type="number" placeholder="Поиск по номеру заказа" aria-label="Number" name="search" matInput [(ngModel)]="searchDebtor">
+				</mat-form-field>
+				<button type="submit" class="main-button-color">Искать</button>
+			</form>
+			<ng-container *ngIf="searchArr.length>0">
+					<div>
+						<div class="table-content">
+							<div class="content" *ngIf="loading">
+								<ng-container>
+									<table class="table">
+										<tr class="t-title">
+                      <td style="min-width: 200px">Название точки</td>
+											<td style="min-width: 200px">Адресс</td>
+											<td style="min-width: 200px">Долг и номер заказа</td>
+											<td style="min-width: 180px">Дата</td>
+											<td style="min-width: 200px"></td>
+										</tr>
+										<tr *ngFor="let item of searchArr; let i = index">
+											<td>
+                      <div class="name">
+													<ng-container *ngIf="!item.basket">
+														<div class="img">
+															<app-img [fs]="item.debtor.clientOwner.img" [dir]="'avatar'" [anyFs]="'/assets/images/user.svg'"></app-img>
+														</div>
+														<div class="block-name">
+															<div class="n">
+																{{item.debtor.clientOwner.name}}
+															</div>
+														</div>
+													</ng-container>
+													<ng-container *ngIf="item.basket">
+														<div class="img">
+															<app-img [fs]="item.basket.deliveryAddress.img" [dir]="'address'" [anyFs]="'/assets/images/user.svg'"></app-img>
+														</div>
+														<div class="block-name" *ngIf="item.basket">
+															<div class="n">
+																{{item.basket.deliveryAddress.name}}
+															</div>
+														</div>
+													</ng-container>
+												</div>
+											</td>
+											<td *ngIf="item.basket">
+												<ng-container *ngIf="item.basket.deliveryAddress">
+													<div class="address">
+														{{item.basket.deliveryAddress.city.name}},
+														ул. {{item.basket.deliveryAddress.street}}
+														<br>
+														<span *ngIf="item.basket.deliveryAddress.build">
+															Дом {{item.basket.deliveryAddress.build}}
+														</span>
+														<br>
+														<span *ngIf="item.basket.deliveryAddress.department">
+															Квартира {{item.basket.deliveryAddress.department}}
+														</span>
+													</div>
+												</ng-container>
+												<ng-container *ngIf="!item.basket.deliveryAddress">
+													Адресс не доступен
+												</ng-container>
+											</td>
+                      <td *ngIf="!item.basket">
+                        Адресс не доступен
+                      </td>
+											<td>
+												<p class="status__title remove">Долг {{item.debtor.value}} грн</p>
+												<p *ngIf="item.basket">Заказ №{{item.basket.basketNumber}}</p>
+											</td>
+											<td>
+												<div class="date">
+													<div class="top-table-date">
+														{{item.debtor.lastUpdate | date: 'dd MMMM, yyyy' : null : defLang}}
+													</div>
+													<div class="bottom-table-date">
+														{{item.debtor.lastUpdate | date: 'HH:mm' : null : defLang}}
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="buttons-edit">
+													<span class="edit-btn" (click)="edit(item.debtor)" appScrollTop></span>
+													<span class="trash-btn" (click)="delete(item.debtor)"></span>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</ng-container>
+							</div>
+						</div>
+					</div>
+			</ng-container>
+			<div class="date" *ngIf="searchArr.length===0">
+				<span>
+					Дата от:
+				</span>
+				<div class="date-box">
+					<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M14.1463 2.461C13.9344 2.24894 13.6831 2.1429 13.393 2.1429H12.3217V1.3393C12.3217 0.971065 12.1904 0.655752 11.9282 0.393475C11.6658 0.131197 11.3506 0 10.9822 0H10.4466C10.0783 0 9.763 0.131197 9.50072 0.393504C9.23836 0.655752 9.10722 0.971094 9.10722 1.33933V2.14293H5.8931V1.33933C5.8931 0.971094 5.76191 0.655781 5.4996 0.393504C5.23735 0.131197 4.92207 0 4.55369 0H4.01802C3.64973 0 3.33442 0.131197 3.07211 0.393504C2.80987 0.655752 2.67864 0.971094 2.67864 1.33933V2.14293H1.60731C1.31706 2.14293 1.06598 2.24897 0.853926 2.46103C0.64187 2.67305 0.535828 2.92425 0.535828 3.21441V13.9287C0.535828 14.2186 0.64187 14.4698 0.853926 14.682C1.06595 14.894 1.31703 15 1.60731 15H13.3928C13.6829 15 13.9343 14.894 14.146 14.682C14.3581 14.4699 14.4642 14.2186 14.4642 13.9287V3.21438C14.4642 2.92413 14.3582 2.67305 14.1463 2.461ZM4.01794 13.9286H1.60731V11.5177H4.01794V13.9286ZM4.01794 10.9822H1.60731V8.30375H4.01794V10.9822ZM4.01794 7.76779H1.60731V5.35719H4.01794V7.76779ZM3.82972 3.93835C3.77668 3.88532 3.75021 3.82266 3.75021 3.75004V1.33941C3.75021 1.26688 3.77668 1.20405 3.82972 1.15111C3.88275 1.09807 3.9454 1.0716 4.01802 1.0716H4.55369C4.62622 1.0716 4.68905 1.09807 4.742 1.15111C4.79503 1.20408 4.82157 1.26688 4.82157 1.33941V3.75004C4.82157 3.82269 4.79492 3.88535 4.742 3.93835C4.68902 3.99139 4.62631 4.01786 4.55369 4.01786H4.01802C3.94549 4.01789 3.88275 3.99139 3.82972 3.93835ZM7.23223 13.9286H4.5536V11.5177H7.23223V13.9286ZM7.23223 10.9822H4.5536V8.30375H7.23223V10.9822ZM7.23223 7.76779H4.5536V5.35719H7.23223V7.76779ZM10.4466 13.9286H7.76804V11.5177H10.4466V13.9286ZM10.4466 10.9822H7.76804V8.30375H10.4466V10.9822ZM10.4466 7.76779H7.76804V5.35719H10.4466V7.76779ZM10.2582 3.93835C10.2052 3.88532 10.1788 3.82266 10.1788 3.75004V1.33941C10.1788 1.26688 10.2052 1.20405 10.2582 1.15111C10.3112 1.09807 10.374 1.0716 10.4466 1.0716H10.9822C11.0549 1.0716 11.1176 1.09807 11.1706 1.15111C11.2236 1.20408 11.25 1.26688 11.25 1.33941V3.75004C11.25 3.82269 11.2235 3.88535 11.1706 3.93835C11.1177 3.99139 11.0549 4.01786 10.9822 4.01786H10.4466C10.374 4.01789 10.311 3.99139 10.2582 3.93835ZM13.3928 13.9286H10.982V11.5177H13.3928V13.9286ZM13.3928 10.9822H10.982V8.30375H13.3928V10.9822ZM13.3928 7.76779H10.982V5.35719H13.3928V7.76779Z" fill="#009688"/>
+					</svg>
+					<div class="mat-date-pick">
+						<input placeholder="дд.мм.гггг" class="date-input" [matDatepicker]="picker" [max]="dateEnd ? dateEnd : null" (focus)="picker.open()" (click)="picker.open()" [(ngModel)]="dateStart" (dateChange)="getDebtors()">
+						<mat-datepicker #picker></mat-datepicker>
+					</div>
+				</div>
+				<span>
+					до:
+				</span>
+				<div class="date-box">
+					<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M14.1463 2.461C13.9344 2.24894 13.6831 2.1429 13.393 2.1429H12.3217V1.3393C12.3217 0.971065 12.1904 0.655752 11.9282 0.393475C11.6658 0.131197 11.3506 0 10.9822 0H10.4466C10.0783 0 9.763 0.131197 9.50072 0.393504C9.23836 0.655752 9.10722 0.971094 9.10722 1.33933V2.14293H5.8931V1.33933C5.8931 0.971094 5.76191 0.655781 5.4996 0.393504C5.23735 0.131197 4.92207 0 4.55369 0H4.01802C3.64973 0 3.33442 0.131197 3.07211 0.393504C2.80987 0.655752 2.67864 0.971094 2.67864 1.33933V2.14293H1.60731C1.31706 2.14293 1.06598 2.24897 0.853926 2.46103C0.64187 2.67305 0.535828 2.92425 0.535828 3.21441V13.9287C0.535828 14.2186 0.64187 14.4698 0.853926 14.682C1.06595 14.894 1.31703 15 1.60731 15H13.3928C13.6829 15 13.9343 14.894 14.146 14.682C14.3581 14.4699 14.4642 14.2186 14.4642 13.9287V3.21438C14.4642 2.92413 14.3582 2.67305 14.1463 2.461ZM4.01794 13.9286H1.60731V11.5177H4.01794V13.9286ZM4.01794 10.9822H1.60731V8.30375H4.01794V10.9822ZM4.01794 7.76779H1.60731V5.35719H4.01794V7.76779ZM3.82972 3.93835C3.77668 3.88532 3.75021 3.82266 3.75021 3.75004V1.33941C3.75021 1.26688 3.77668 1.20405 3.82972 1.15111C3.88275 1.09807 3.9454 1.0716 4.01802 1.0716H4.55369C4.62622 1.0716 4.68905 1.09807 4.742 1.15111C4.79503 1.20408 4.82157 1.26688 4.82157 1.33941V3.75004C4.82157 3.82269 4.79492 3.88535 4.742 3.93835C4.68902 3.99139 4.62631 4.01786 4.55369 4.01786H4.01802C3.94549 4.01789 3.88275 3.99139 3.82972 3.93835ZM7.23223 13.9286H4.5536V11.5177H7.23223V13.9286ZM7.23223 10.9822H4.5536V8.30375H7.23223V10.9822ZM7.23223 7.76779H4.5536V5.35719H7.23223V7.76779ZM10.4466 13.9286H7.76804V11.5177H10.4466V13.9286ZM10.4466 10.9822H7.76804V8.30375H10.4466V10.9822ZM10.4466 7.76779H7.76804V5.35719H10.4466V7.76779ZM10.2582 3.93835C10.2052 3.88532 10.1788 3.82266 10.1788 3.75004V1.33941C10.1788 1.26688 10.2052 1.20405 10.2582 1.15111C10.3112 1.09807 10.374 1.0716 10.4466 1.0716H10.9822C11.0549 1.0716 11.1176 1.09807 11.1706 1.15111C11.2236 1.20408 11.25 1.26688 11.25 1.33941V3.75004C11.25 3.82269 11.2235 3.88535 11.1706 3.93835C11.1177 3.99139 11.0549 4.01786 10.9822 4.01786H10.4466C10.374 4.01789 10.311 3.99139 10.2582 3.93835ZM13.3928 13.9286H10.982V11.5177H13.3928V13.9286ZM13.3928 10.9822H10.982V8.30375H13.3928V10.9822ZM13.3928 7.76779H10.982V5.35719H13.3928V7.76779Z" fill="#009688"/>
+					</svg>
+					<div class="mat-date-pick">
+						<input placeholder="дд.мм.гггг" class="date-input" [matDatepicker]="picker2" [max]="minDate" [min]="dateStart ? dateStart: null" (focus)="picker2.open()" (click)="picker2.open()" [(ngModel)]="dateEnd" (dateChange)="getDebtors()">
+						<mat-datepicker #picker2></mat-datepicker>
+					</div>
+				</div>
+			</div>
+			<mat-tab-group (selectedIndexChange)="tabChange($event)" [(selectedIndex)]="tabIndex" [animationDuration]="0" *ngIf="searchArr.length===0">
+				<ng-container>
+					<mat-tab label="Должники"></mat-tab>
+					<mat-tab label="История должников"></mat-tab>
+				</ng-container>
+			</mat-tab-group>
+			<div class="table-content" *ngIf="searchArr.length===0">
+				<div class="content" *ngIf="loading">
+					<table *ngIf="debtors && debtors.length > 0" class="table">
+						<tr class="t-title">
+              <td style="min-width: 200px">Имя</td>
+              <td style="min-width: 200px">Телефон</td>
+              <td style="min-width: 200px">Адрес</td>
+							<td style="min-width: 200px">Долг и номер заказа</td>
+							<td style="min-width: 180px">Дата</td>
+							<td style="min-width: 120px"></td>
+						</tr>
+						<tr *ngFor="let item of debtors; let i = index">
+              <td>
+                <div class="name">
+                  <div class="img">
+                    <app-img [fs]="item.clientOwner.img" [dir]="'avatar'" [anyFs]="'/assets/images/user.svg'"></app-img>
+                  </div>
+                  <div class="block-name">
+                    <div class="n">
+                      {{item.clientOwner.name}}
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="td">
+                <div class="mobile">
+                  <a class="mobile-href" href="tel:{{item.clientOwner.mobile}}">{{item.clientOwner.mobile}}</a>
+                </div>
+              </td>
+              <td *ngIf="item.basket">
+                <ng-container *ngIf="item.basket.deliveryAddress">
+                  <div class="address">
+                    {{item.basket.deliveryAddress.city.name}},
+                    ул. {{item.basket.deliveryAddress.street}}
+                    <br>
+                    <span *ngIf="item.basket.deliveryAddress.build">
+										Дом {{item.basket.deliveryAddress.build}}
+									</span>
+                    <br>
+                    <span *ngIf="item.basket.deliveryAddress.department">
+										Квартира {{item.basket.deliveryAddress.department}}
+									</span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!item.basket.deliveryAddress">
+                  Адресс не доступен
+                </ng-container>
+              </td>
+              <td *ngIf="!item.basket">
+                Адресс не доступен
+              </td>
+<!--							<td>-->
+<!--								<div class="name">-->
+<!--									<ng-container *ngIf="!item.basket">-->
+<!--										<div class="img">-->
+<!--											<app-img [fs]="item.clientOwner.img" [dir]="'avatar'" [anyFs]="'/assets/images/user.svg'"></app-img>-->
+<!--										</div>-->
+<!--										<div class="block-name">-->
+<!--											<div class="n">-->
+<!--												{{item.createdBy.name}}-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</ng-container>-->
+<!--									<ng-container *ngIf="item.basket">-->
+<!--										<div class="img">-->
+<!--											<app-img [fs]="item.basket.deliveryAddress.img" [dir]="'address'" [anyFs]="'/assets/images/user.svg'"></app-img>-->
+<!--										</div>-->
+<!--										<div class="block-name" *ngIf="item.basket">-->
+<!--											<div class="n">-->
+<!--												{{item.basket.deliveryAddress.name}}-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</ng-container>-->
+<!--								</div>-->
+<!--							</td>-->
+							<td *ngIf="item.deliveryAddress">
+								<ng-container *ngIf="item.deliveryAddress">
+									<div class="address">
+										{{item.basket.deliveryAddress.city.name}},
+										ул. {{item.basket.deliveryAddress.street}}
+										<br>
+										<span *ngIf="item.basket.deliveryAddress.build">
+										Дом {{item.basket.deliveryAddress.build}}
+									</span>
+										<br>
+										<span *ngIf="item.basket.deliveryAddress.department">
+										Квартира {{item.basket.deliveryAddress.department}}
+									</span>
+									</div>
+								</ng-container>
+								<ng-container *ngIf="!item.basket.deliveryAddress">
+									Адресс не доступен
+								</ng-container>
+							</td>
+							<td>
+								<p class="status__title remove">Долг {{item.value}} грн</p>
+								<p *ngIf="item.basket">Заказ №{{item.basket.basketNumber}}</p>
+							</td>
+							<td>
+								<div class="date" *ngIf="tabIndex === 0">
+									<div class="top-table-date">
+										{{item.date | date: 'dd MMMM, yyyy' : null : defLang}}
+									</div>
+									<div class="bottom-table-date">
+										{{item.date | date: 'HH:mm' : null : defLang}}
+									</div>
+								</div>
+								<div class="date" *ngIf="tabIndex === 1">
+									<div class="top-table-date">
+										{{item.lastUpdate | date: 'dd MMMM, yyyy' : null : defLang}}
+									</div>
+									<div class="bottom-table-date">
+										{{item.lastUpdate | date: 'HH:mm' : null : defLang}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="buttons-edit">
+									<span class="edit-btn" (click)="edit(i)" appScrollTop></span>
+									<span class="trash-btn" (click)="delete(i)"></span>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="empty-section" *ngIf="debtors && debtors.length === 0 && searchArr.length === 0">
+				<p>
+					Нет должников от {{dateStart | date:'dd.MM.yyyy'}} до {{dateEnd | date:'dd.MM.yyyy'}}
+				</p>
+			</div>
+			<mat-paginator [length]="lengthPagination"
+			               [pageSize]="pageSizePagination"
+			               [pageSizeOptions]="pageSizeOptionsPagination"
+			               (page)="pageEvent($event)"
+			               *ngIf="debtors && debtors.length > 0 && !searchFilter">
+			</mat-paginator>
+		</div>
+	</div>
+</div>
+
+
+<ng-template #emptyBasket>
+  <div>
+    Информация по товару отсутствует
+  </div>
+</ng-template>
+
+
+<ng-template #emptyBasketAll>
+  <div>
+    Информация по товарах отсутствует
+  </div>
+</ng-template>

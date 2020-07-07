@@ -1,0 +1,88 @@
+.group-buttons{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  .right{
+    display: flex;
+    align-items: center;
+    button{
+      &:nth-of-type(2){
+        margin-left: 20px
+      }
+    }
+  }
+}
+.city{
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  .img{
+    display: flex;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 15px;
+    overflow: hidden;
+  }
+  button{
+    margin-left: 50px;
+  }
+}
+.error{
+  color: red;
+  font-size: 11px;
+}
+.number{
+  .date-item{
+    padding-bottom: 5px;
+  }
+  .error{
+    margin-top: -20px;
+  }
+}
+.date{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  .date-item{
+    width: 80px;
+    &:nth-of-type(1){
+      margin-right: 10px;
+    }
+    &:nth-of-type(2){
+      margin-left: 10px;
+    }
+    input{
+      width: 100%;
+    }
+  }
+}
+
+.ccv{
+  width: 50px;
+}
+.card-block{
+  display: flex;
+  align-items: center;
+  button{
+    margin-left: 50px;
+  }
+}
+
+.pay-info{
+  margin-top: 25px;
+}
+.pay-section{
+  display: flex;
+  align-items: center;
+  .sum{
+    margin-right: 20px;
+  }
+  .time{
+    margin-right: 20px;
+  }
+}
+.width-auto{
+  width: 100%;
+}

@@ -1,0 +1,113 @@
+<ng-container *ngIf="!loading">
+	<app-loading></app-loading>
+</ng-container>
+<div class="contain">
+	<div class="contain__group open-close-container" [@openClose]="addShow ? true : false" *ngIf="addShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Создать скидку
+			</div>
+		</div>
+		<form (submit)="createDiscount($event)" class="add-section">
+			<mat-form-field class="example-full-width">
+				<input type="text" matInput placeholder="Имя клиента" [formControl]="addName" [matAutocomplete]="auto">
+			</mat-form-field>
+
+			<mat-autocomplete #auto="matAutocomplete">
+				<mat-option *ngFor="let client of filteredClients | async" [value]="client.name">
+					{{client.name}}
+				</mat-option>
+			</mat-autocomplete>
+
+			<mat-form-field class="example-full-width">
+				<input matInput type="number" placeholder="Скидка" name="discount" [(ngModel)]="addDiscount" autocomplete="off">
+			</mat-form-field>
+
+			<div class="group-buttons">
+				<div class="right">
+					<button class="main-button" (click)="cancelAdd($event)">Отмена</button>
+					<button class="main-button-color" type="submit">Сохранить</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="contain__group open-close-container" [@openClose]="editShow ? true : false" *ngIf="editShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Редактировать скидку
+			</div>
+		</div>
+		<form (submit)="editDiscount($event)" class="add-section">
+			<mat-form-field class="example-full-width">
+				<input type="text" matInput placeholder="Имя клиента" [formControl]="editName" [matAutocomplete]="auto">
+			</mat-form-field>
+
+			<mat-autocomplete #auto="matAutocomplete">
+				<mat-option *ngFor="let client of filteredClients | async" [value]="client.name">
+					{{client.name}}
+				</mat-option>
+			</mat-autocomplete>
+
+			<mat-form-field class="example-full-width">
+				<input matInput type="number" placeholder="Скидка" name="discount" [(ngModel)]="editDiscountValue" autocomplete="off">
+			</mat-form-field>
+
+			<div class="group-buttons">
+				<div class="right">
+					<button class="main-button" (click)="cancelEdit($event)">Отмена</button>
+					<button class="main-button-color" type="submit">Сохранить</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="contain__group">
+		<div class="contain__group-header">
+			<div class="title">
+				Все скидки
+			</div>
+			<button class="button-add" (click)="openAdd()">
+				<span class="content">Создать скидку</span>
+			</button>
+		</div>
+		<div class="main-section">
+			<div class="table-content" *ngIf="loading">
+				<div class="content" *ngIf="discounts && discounts.length > 0">
+					<table class="table">
+						<tr class="t-title">
+							<td>Клиент</td>
+							<td>Скидка</td>
+							<td></td>
+						</tr>
+						<tr *ngFor="let item of discounts">
+							<td>
+								<div class="name">
+									{{item.client.name}}
+								</div>
+							</td>
+							<td>
+								{{item.discount}}
+							</td>
+							<td>
+								<div class="buttons-edit">
+									<span class="edit-btn" (click)="edit(item)" appScrollTop></span>
+									<span class="trash-btn" (click)="delete(item)"></span>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<mat-paginator [length]="lengthPagination" [pageSize]="pageSizePagination"
+				[pageSizeOptions]="pageSizeOptionsPagination" (page)="pageEvent($event)"
+				*ngIf="discounts && discounts.length > 0">
+			</mat-paginator>
+
+			<div class="empty-section" *ngIf="loading && !discounts || discounts.length === 0">
+				<p>
+					У вас нет созданых скидок
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

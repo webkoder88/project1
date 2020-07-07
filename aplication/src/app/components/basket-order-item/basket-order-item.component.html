@@ -1,0 +1,91 @@
+<div class="conteiner-basket-order" *ngIf="data">
+<mat-checkbox [ngModel]="chooseAll" (change)="mainChack()" class="main-checkbox basket-checkbox"></mat-checkbox>
+  <mat-expansion-panel class="basket-panel">
+    <mat-expansion-panel-header class="basket-header-fix" collapsedHeight="*" expandedHeight="*">
+      <mat-panel-title>
+        <div class="title-panel">
+          <div class="img">
+            <app-img [fs]="data.companyOwner.img ? data.companyOwner.img : ''" [anyFs]="'assets/images/provider.svg'"></app-img>
+          </div>
+          <div class="title">
+            {{data.companyOwner.name}}
+          </div>
+          <div class="discount" *ngIf="discount">
+            - {{discount}} %
+          </div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="content">
+      <div class="content-item" *ngFor="let prod of data.product; let i = index">
+        <mat-checkbox class="green-checkbox basket-checkbox" name="it1" [ngModel]="items[i].isChoise" (change)="otherChack(i)"></mat-checkbox>
+        <div class="img prod-bsk-img">
+          <app-img *ngIf="prod.orderOwner" [fs]="prod.orderOwner.img ? prod.orderOwner.img : ''" [anyFs]="'assets/images/product.svg'"></app-img>
+        </div>
+        <div class="info" *ngIf="prod.orderOwner">
+          <div class="title">
+            {{prod.orderOwner.name}}
+          </div>
+          <div class="price-element" [class.sale]="prod.orderOwner.discount" *ngIf="prod.orderOwner.discount">
+              <div class="price-item">
+                  {{prod.orderOwner.price}} грн.
+              </div>
+              <div class="new-price">
+                  {{prod.orderOwner.discount}} грн.
+              </div>
+          </div>
+          <div class="price-element" [class.sale]="companyDiscount" *ngIf="companyDiscount !== 0">
+            <div class="price-item">
+                {{prod.orderOwner.price}} грн.
+            </div>
+            <div class="new-price">
+                {{prod.orderOwner.price - ((prod.orderOwner.price / 100) * companyDiscount)}} грн.
+            </div>
+          </div>
+          <div class="price-element" *ngIf="discount !== 0 && !prod.orderOwner.discount || !prod.orderOwner.loyaltyAvailable">
+              <div class="price-item">
+                  {{prod.orderOwner.price}} грн.
+              </div>
+              <div class="new-price">
+                  {{prod.orderOwner.discount}} грн.
+              </div>
+          </div>
+          <app-loyalty-discount *ngIf="discount > 0 && !prod.orderOwner.discount && prod.orderOwner.loyaltyAvailable" [price]="prod.orderOwner.price" [discount]="discount"></app-loyalty-discount>
+          <div class="count">
+            <button class="minus" (click)="minus(i)"></button>
+            <div class="count-item">{{prod.count}}</div>
+            <button class="plus" (click)="plus(i)"></button>
+          </div>
+        </div>
+        <div class="remove" (click)="removeProduct(i)">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <path d="M5.47852 -0.0214844C2.44091 -0.0214844 -0.0214844 2.44091 -0.0214844 5.47852C-0.0214844 8.51612 2.44091 10.9785 5.47852 10.9785C8.51612 10.9785 10.9785 8.51612 10.9785 5.47852C10.9749 2.44242 8.51461 -0.0178757 5.47852 -0.0214844ZM5.47852 10.291C2.82066 10.291 0.666016 8.13637 0.666016 5.47852C0.666016 2.82066 2.82066 0.666016 5.47852 0.666016C8.13637 0.666016 10.291 2.82066 10.291 5.47852C10.2882 8.13519 8.13519 10.2882 5.47852 10.291Z" fill="black"/>
+              <path d="M8.1523 2.80463C8.01803 2.67044 7.80041 2.67044 7.66622 2.80463L5.47859 4.99226L3.29096 2.80463C3.15903 2.66809 2.94142 2.66431 2.80488 2.79624C2.66833 2.92808 2.66456 3.1457 2.79648 3.28224C2.79925 3.28509 2.80202 3.28795 2.80488 3.29072L4.99251 5.47835L2.80488 7.66598C2.66833 7.79782 2.66456 8.01543 2.79648 8.15206C2.92833 8.2886 3.14594 8.29238 3.28248 8.16045C3.28534 8.15768 3.28819 8.15491 3.29096 8.15206L5.47859 5.96443L7.66622 8.15206C7.80276 8.2839 8.02038 8.28013 8.15222 8.14358C8.28087 8.0104 8.28087 7.79916 8.15222 7.66598L5.96467 5.47835L8.1523 3.29072C8.2865 3.15652 8.2865 2.93891 8.1523 2.80463Z" fill="black"/>
+            </g>
+            <defs>
+              <clipPath>
+                <rect width="11" height="11" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+  <div class="basket-buttons">
+    <div class="left">
+      <div class="left-title">
+        {{translate.total[language]}}
+      </div>
+      <div class="left-price">
+        {{data.totalPrice}} грн.
+      </div>
+    </div>
+    <button class="right" (click)="openConfirmComponent()">
+      {{translate.by[language]}}
+    </button>
+  </div>
+</div>
+<app-confirm-order *ngIf="showConfirm" (closeConfirm)="closeConfirm($event)" [basket]="data"></app-confirm-order>
+<app-remove-basket-item *ngIf="removeItemShow" (successRemove)="successRemove($event)" (closeRemove)="closeRemoveItem($event)" [data]="removeObj"></app-remove-basket-item>

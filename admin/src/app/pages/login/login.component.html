@@ -1,0 +1,16 @@
+<div class="login">
+	<div class="login-box">
+		<form class="form" (submit)="signIn($event)">
+			<h2>Вход в админ панель</h2>
+			<label for="login" class="login-label">
+				<span class="absolute"></span>
+				<input type="text" placeholder="login" name="login" id="login" [(ngModel)]="obj.login" autocomplete="off">
+			</label>
+			<input type="password" placeholder="password" name="password" [(ngModel)]="obj.pass" autocomplete="off">
+			<div class="error" *ngIf="error && error.text !== ''">
+				{{error.text}}
+			</div>
+			<button class="main-button-color" type="submit">Войти</button>
+		</form>
+	</div>
+</div>

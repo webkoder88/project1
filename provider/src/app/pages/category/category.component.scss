@@ -1,0 +1,72 @@
+table {
+  width: 100%;
+}
+
+.paginator-table{
+  display: none;
+}
+
+.paginator-table-active{
+  display: block;
+}
+
+.right-section-table {
+  padding: 19px 0 !important;
+}
+
+.filter{
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.link{
+  position: relative;
+  padding-right: 30px;
+  &:after{
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 12px;
+    top: calc(50% - 6px);
+    right: 15px;
+    background: url("/assets/images/arrow-link.svg") no-repeat;
+    background-size: cover;
+  }
+}
+.ships{
+  align-items: center;
+  padding: 5px 6px 5px 10px;
+  background-color: #99999930;
+  display: inline-flex;
+  margin: 10px 5px;
+  border-radius: 13px;
+}
+.chips-close{
+  width: 17px;
+  height: 17px;
+  border: 1px solid #f33;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+}
+.chips-close:before{
+  content: "";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  height: 7px;
+  width: 7px;
+  color: #E21B1B;
+  background: url("/assets/images/remove-chip.svg") no-repeat;
+  background-size: cover;
+}
+
+.table-content{
+  overflow-x: auto;
+}

@@ -1,0 +1,122 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "assets/style";
+@import "./assets/css/popup";
+@font-face {
+  font-family: 'Montserrat-Bold';
+  src: url('./assets/fonts/Montserrat-Bold.ttf') format('ttf'),
+  url('./assets/fonts/Montserrat-Bold.woff2') format('woff2');
+  src: local('Montserrat-Bold');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat-Light';
+  src: url('./assets/fonts/Montserrat-Light.ttf') format('ttf'),
+  url('./assets/fonts/Montserrat-Light.woff2') format('woff2');
+  src: local('Montserrat-Light');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: url('./assets/fonts/Montserrat-Medium.ttf') format('ttf'),
+  url('./assets/fonts/Montserrat-Medium.woff2') format('woff2');
+  src: local('Montserrat-Medium');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat-Regular';
+  src: url('./assets/fonts/Montserrat-Regular.ttf') format('ttf'),
+  url('./assets/fonts/Montserrat-Regular.woff2') format('woff2');
+  src: local('Montserrat-Regular');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.table {
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.table td+td{
+  border-left: 1px solid #DADADA;
+}
+.table .t-title {
+  border-radius: 5px 5px 0 0;
+}
+.table .t-title td{
+  color: #fff;
+  background: #009688;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.table tr+tr{
+  //border-bottom: 2px solid #ececec;
+  border-top: 1px solid #DADADA;
+}
+.col{
+  display: flex;
+  align-items: center;
+}
+.jcc > * {
+  margin-right: 8px;
+}
+.jcc {
+  justify-content: center;
+}
+.table .img app-img{
+  display: flex;
+}
+.table .img {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.product-box{
+  display: flex;
+  flex-direction: column;
+  .product-item{
+    display: flex;
+    align-items: center;
+    color: #252733;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    min-height: 50px;
+    .h{
+      color: #748AA1;
+    }
+    .name{
+      min-width: 350px;
+      text-align: left;
+    }
+    .count{
+      width: 150px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      .count-item{
+        padding: 0 10px;
+      }
+      svg{
+        cursor: pointer;
+      }
+    }
+    .price{
+      width: 150px;
+      text-align: center;
+    }
+    .remove{
+      margin-left: 25px;
+      color: #E21B1B;
+      border: 1px solid #E21B1B;
+    }
+  }
+}

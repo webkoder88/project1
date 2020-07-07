@@ -1,0 +1,61 @@
+<!--<ng-container *ngIf="!loading">-->
+<!--  <app-loading></app-loading>-->
+<!--</ng-container>-->
+<div class="contain">
+  <div class="contain__group">
+    <div class="contain__group-header">
+      <div class="title">
+        Клиенты
+      </div>
+    </div>
+    <div class="main-section">
+      <div class="table-content">
+        <div class="content">
+          <table *ngIf="history && history.length > 0; else empty" class="table">
+            <tr class="t-title">
+              <td style="min-width: 200px">Имя</td>
+              <td style="min-width: 200px">Телефон</td>
+              <td style="min-width: 180px">Сума покупок</td>
+              <td style="min-width: 100px">Лояльность</td>
+              <td style="min-width: 100px">Скидка</td>
+            </tr>
+            <tr *ngFor="let item of history; let i = index">
+              <td>
+                {{item.client.name}}
+              </td>
+              <td>
+                {{item.client.mobile}}
+              </td>
+              <td>
+                {{item.total}} Грн
+              </td>
+              <td>
+                <span *ngIf="item.discount">
+                  {{item.discount}} %
+                </span>
+              </td>
+              <td>
+                <span *ngIf="item.providerDiscount">
+                  {{item.providerDiscount}} %
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <mat-paginator [length]="lengthPagination"
+                     [pageSize]="pageSizePagination"
+                     [pageSizeOptions]="pageSizeOptionsPagination"
+                     (page)="pageEvent($event)"
+                     *ngIf="history && history.length > 0">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #empty>
+  <p class="empty">
+    Отсутствует история покупок по клиентах
+  </p>
+</ng-template>

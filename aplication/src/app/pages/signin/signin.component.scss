@@ -1,0 +1,23 @@
+.error{
+  color: #c31212;
+  margin-top: -15px;
+  margin-bottom: 10px;
+}
+.password{
+  margin: 0 auto 25px!important;
+}
+.link-forgot{
+  margin-bottom: 10px;
+  color: #fff;
+  text-decoration: underline;
+}
+.password{
+  max-width: 195px!important;
+}
+
+input{
+  font-size: 16px;
+  &::placeholder{
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,86 @@
+.example-full-width {
+  width: 100%;
+}
+.example-half{
+  width: 400px;
+}
+
+.left{
+  height: 40px;
+  .img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+  }
+}
+.link{
+  position: relative;
+  padding-right: 30px;
+  &:after{
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 12px;
+    top: calc(50% - 6px);
+    right: 15px;
+    background: url("/assets/images/arrow-link.svg") no-repeat;
+    background-size: cover;
+  }
+}
+.info-active{
+  margin: 0 10px 0 auto;
+  span{
+    color: #748AA1;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+.active-button{
+  font-size: 18px;
+  line-height: 22px;
+  color: #009688;
+  font-weight: bold;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.link{
+  display: inline-block;
+  margin-top: 15px;
+}
+.pass{
+  display: flex;
+  position: relative;
+  align-items: center;
+  .example-full-width{
+    width: 100%;
+    max-width: 400px;
+    min-width: 250px;
+  }
+  button{
+    margin-left: 20px;
+  }
+}
+
+.status.error{
+  position: absolute;
+  bottom: -6px;
+  z-index: 222;
+  font-size: 11px;
+  color: #f33;
+}
+
+.mat-tab-group{
+  margin-bottom: 30px;
+}
+
+.change-phone{
+  color: #009688;
+  cursor: pointer;
+  text-decoration: underline;
+}

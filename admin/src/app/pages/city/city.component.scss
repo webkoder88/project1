@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+}
+
+.paginator-table{
+  display: none;
+}
+
+.paginator-table-active{
+  display: block;
+}
+
+.example-full-width{
+  width:  100%;
+}
+
+::ng-deep .img-city img{
+    object-fit: contain;
+}
+
+.table .city {
+  border-radius: 0;
+}

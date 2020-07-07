@@ -1,0 +1,143 @@
+.index-all{
+  display: block;
+  background: #3ab14c;
+  color: #fff;
+  width: max-content;
+  margin: 15px auto 35px;
+  padding: 7px 15px;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+::ng-deep .carousel-slide{
+  height: 180px!important;
+}
+.title-preload {
+  background: #e3ecec;
+  width: 44px;
+  height: 13px;
+  border-radius: 3px;
+}
+.icon-preload{
+  background: #e3ecec;
+}
+.top-btn.done {
+  background-color: #FF5C00;
+}
+.top-btn{
+  border-radius: 50%;
+  padding: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 15px;
+  width: 15px;
+  background: #bdbdbd;
+  color: #fff!important;
+  font-size: 7px;
+  text-transform: uppercase;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.pre-slider{
+  width: 100%;
+  .slider-item{
+    height: 383px;
+    border-radius: 15px;
+    overflow-x: hidden;
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.carousel{
+  margin: 5px 0 15px;
+  border-radius: 15px;
+  overflow:hidden;
+  .item{
+    border-radius: 15px;
+    overflow: hidden;
+    height: 180px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+@media (min-width: 414px) {
+  .carousel{
+    .item{
+      width: 100%;
+      height: 210px;
+    }
+  }
+  ::ng-deep .carousel-slide{
+    height: 210px!important;
+  }
+}
+
+@media (min-width: 525px) {
+  .carousel{
+    .item{
+      width: 100%;
+      height: 250px;
+    }
+  }
+  ::ng-deep .carousel-slide{
+    height: 250px!important;
+  }
+}
+
+@media (min-width: 768px) {
+  .carousel{
+    .item{
+      width: 100%;
+      height: 300px;
+    }
+  }
+  ::ng-deep .carousel-slide{
+    height: 300px!important;
+  }
+}
+::ng-deep .action-img{
+  width: 100%!important;
+  height: 100%!important;
+    img{
+      object-fit: cover!important;
+    }
+}
+
+.empty{
+  text-align: center;
+}
+::ng-deep .brand-ind{
+  img{
+    object-fit: cover!important;
+  }
+}
+
+.empty-company{
+  text-align: center;
+  font-size: 14px;
+  margin-top: 15px;
+}
+.btn-wrap > *{
+  margin: 5px;
+}
+.btn-wrap {
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+  margin-bottom: 50px;
+}

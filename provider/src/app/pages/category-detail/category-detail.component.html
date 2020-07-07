@@ -1,0 +1,91 @@
+<ng-container *ngIf="!loading">
+	<app-loading></app-loading>
+</ng-container>
+<div class="contain">
+	<div class="contain__group"  *ngIf="addShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Создать продукт
+			</div>
+		</div>
+		<app-add-product (outputNew)="newProduct($event)" [brands]="brands" [categorys]="categorys"  (cancelAdd)="cancelAdd($event)"></app-add-product>
+		
+	</div>
+	
+	<div class="contain__group"  *ngIf="editShow">
+		<div class="contain__group-header">
+			<div class="title">
+				Редактировать продукт
+			</div>
+		</div>
+		<app-edit-product (cancelEdit)="cancelEdit($event)" [brands]="brands" [categorys]="categorys"  (outputChanges)="outputEdit($event)" [obj]="editObj"></app-edit-product>
+	</div>
+	<ng-container class="loading" *ngIf="!loading">
+		Загрузка ...
+	</ng-container>
+	<ng-container *ngIf="loading">
+		<div class="contain__group">
+			<div class="contain__group-header">
+				<div class="title" *ngIf="categoryID">
+					Категория {{categoryID.name}}
+				</div>
+				<button class="button-add" (click)="openAdd()">
+					<span class="content">Создать продукт</span>
+				</button>
+			</div>
+			<div class="main-section">
+				<div class="table" *ngIf="products && products.length > 0">
+					<app-search-filter [inputApi]="'order'" [inputQuery]="'name'" [queryValue]="'companyOwner'" [querySearch]="id" (output)="outputSearch($event)"></app-search-filter>
+					<div class="table-content">
+						<div class="row-h">
+							<div class="col">
+								Name
+							</div>
+							<div class="col">
+							</div>
+							<div class="col">
+								Date
+							</div>
+							<div class="col">
+							</div>
+						</div>
+						<div class="row-r" *ngFor="let item of products; let index = index">
+							<div class="col">
+								<div class="img">
+									<app-img [fs]="item.img"></app-img>
+								</div>
+								{{item.name}}
+							</div>
+							<div class="col"></div>
+							<div class="col">
+								<div class="date">
+									<div class="top-table-date">
+										{{item.date | date: 'dd MMMM, yyyy'  : null : defLang}}
+									</div>
+									<div class="bottom-table-date">
+										{{item.date | date: 'HH:mm'  : null : defLang}}
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<span class="edit-btn" (click)="edit(index)" appScrollTop></span>
+								<span class="trash-btn" (click)="delete(index)"></span>
+							</div>
+						</div>
+					</div>
+					<mat-paginator [length]="lengthPagination"
+					               [pageSize]="pageSizePagination"
+					               [pageSizeOptions]="pageSizeOptionsPagination"
+					               (page)="pageEvent($event)"
+					               *ngIf="products && products.length > 0">
+					</mat-paginator>
+				</div>
+				<div class="empty-section" *ngIf="!products || products.length === 0">
+					<p>
+						У вас нет созданых продуктов в категории {{categoryID ? categoryID.name : ''}}
+					</p>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+</div>

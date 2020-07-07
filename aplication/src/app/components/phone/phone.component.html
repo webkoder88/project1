@@ -1,0 +1,20 @@
+<ng-container *ngIf="!other">
+  <div class="phone">
+    <div class="block">
+      <input type="text" mask='00-000-0000' class="mainPhone" [(ngModel)]="mainPhone" (keyup)="splitPhone()" [maxLength]="11" autocomplete="off">
+    </div>
+    <div class="text">
+      +380
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="other">
+  <div class="phone" [class.phone-other]="other">
+    <div class="block">
+      <input type="text" mask='00-000-0000' class="mainPhone" [(ngModel)]="number" [maxLength]="11" autocomplete="off">
+    </div>
+    <div class="text">
+      +380
+    </div>
+  </div>
+</ng-container>
